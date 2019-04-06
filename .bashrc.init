@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+function isInteractiveShell()
+{
+  if [[ $- =~ i ]]
+  then
+      return 0
+  else
+    return -1
+  fi
+  
+}
+export -f isInteractiveShell
+
+function logPrint()
+{
+    if isInteractiveShell 
+    then
+        echo -e $*$DEFAULT;
+    fi
+}
+export -f logPrint
+
+function isSuse()
+{
+    grep -qi suse /etc/os-release
+}
+
+function isBsd()
+{
+  uname -a | egrep -iq bsd 
+}
+
+logPrint "Reading bashrc.init"
+
