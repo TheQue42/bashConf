@@ -4931,3 +4931,433 @@ git branch vimes
 ll
 #1554540954
 cp ../.bash*
+#1554540956
+cp ../.bash* .
+#1554540957
+ll
+#1554540959
+ttr
+#1554540962
+gs
+#1554540965
+git add .*
+#1554540967
+git add .
+#1554540968
+gs
+#1554540971
+git push
+#1554540974
+gs
+#1554540996
+git comit -m "first commit, vimes bash-cfg"
+#1554540999
+git commit -m "first commit, vimes bash-cfg"
+#1554541002
+git push
+#1554541012
+ git config --global --edit
+#1554541146
+git config
+#1554541148
+git config -l
+#1554541218
+git push -t
+#1554541227
+git push --all
+#1554541259
+cd
+#1554541266
+ssh-agent 
+#1554541269
+SSH_AUTH_SOCK=/tmp/ssh-1bqU9oVeyaky/agent.21358; export SSH_AUTH_SOCK;
+#1554541271
+SSH_AGENT_PID=21359; export SSH_AGENT_PID;
+#1554541274
+echo Agent pid 21359;
+#1554541286
+ssh-keyscan 
+#1554541293
+ssh-keyscan  -f .ssh/taisto.pem 
+#1554541307
+ssh-add .ssh/taisto.pem 
+#1554541316
+chmod 600 .ssh/taisto.pem 
+#1554541317
+ssh-add .ssh/taisto.pem 
+#1554541338
+ssh-agent -h
+#1554541343
+man ssh-agent 
+#1554541356
+ssh 10.9.24.29
+#1554541358
+ssh 10.9.24.28
+#1554541370
+ssh-keyscan 
+#1554542193
+ssh-add -l
+#1554542201
+ssh-add .ssh/taisto.pem 
+#1554542217
+ssh-add -l
+#1554542433
+ssh taisto@10.9.24.29
+#1554542436
+ssh taisto@10.9.24.28
+#1554542456
+ee .ssh/config
+#1554542468
+ssh taisto@10.9.24.28
+#1554542469
+ee .ssh/config
+#1554542472
+ssh taisto@10.9.24.28
+#1554542474
+ee .ssh/config
+#1554542480
+ssh taisto@10.9.24.28
+#1554542483
+ssh -v taisto@10.9.24.28
+#1554540186
+man ssh_config
+#1554542807
+ssh-add -l
+#1554545712
+ll
+#1554545714
+ttr
+#1554545722
+ssh taisto@10.9.24.28
+#1554545727
+cat .ssh/authorized_keys 
+#1554545732
+cat .ssh/config 
+#1554545741
+ee .ssh/config 
+#1554545769
+ssh taisto@10.9.24.28
+#1554545774
+ssh  -v taisto@10.9.24.28
+#1554545796
+ssh  -v taisto@10.9.24.28 -i .ssh/taisto.pem 
+#1554545801
+ee .ssh/config 
+#1554545835
+ssh  -v taisto@10.9.24.28 
+#1554545959
+ssh-add -l
+#1554545965
+cd bashConf/
+#1554545969
+git fetch
+#1554545985
+ssh-add -l
+#1554545995
+ps -alx | grep ssh
+#1554546003
+echo $SSH_AGENT
+#1554546010
+ssh-agent --help
+#1554546032
+echo $SSH_AGENT_PID
+#1554546034
+cd
+#1554546040
+ee .bashrc.env
+#1554546055
+grep PS1 .b*
+#1554546057
+ttr
+#1554546062
+ee .bashrc
+#1554546076
+is printGitBranchForPS1IfAvail
+#1554546094
+ee .bashrc.functions
+#1554546127
+rrc
+#1554546132
+is printGitBranchForPS1IfAvail
+#1554546135
+rrc
+#1554546137
+is printGitBranchForPS1IfAvail
+#1554546142
+cd gitbin/
+#1554546144
+cd ../
+#1554546145
+cd bashConf/
+#1554546147
+cd
+#1554546148
+pwd
+#1554546153
+cd bashConf/
+#1554546154
+find . 
+#1554546160
+cd
+#1554546161
+pwd
+#1554546172
+diff .bashrc.functions bashConf/
+#1554546191
+cp .bashrc.functions bashConf/
+#1554546195
+cd bashConf/
+#1554546196
+gs
+#1554546201
+git add  .bashrc.functions 
+#1554546207
+git commit -m test
+#1554546210
+git push
+#1554566236
+man bash
+#1554566438
+ee .bash_profile
+#1554566478
+cat .bash_profile
+#1554566487
+ee .bash_profile
+#1554566513
+echo $RED
+#1554566521
+echo $RED $DEFAULT
+#1554566588
+grep RED .b*
+#1554566598
+rrc
+#1554566620
+grep DEFA .b*
+#1554568163
+cat .bashrc.init 
+#1554566627
+ee .bash_profile
+#1554568303
+cat bin/colors.shell.src 
+#1554568325
+DEFAULT="\e[0m";
+#1554568324
+ee .bashrc.init
+#1554568381
+cat .bashrc
+#1554568384
+more .bashrc
+#1554568432
+ee .bashrc
+#1554568471
+ttr
+#1554568511
+ee .bashrc.init
+#1554568545
+ttr
+#1554568580
+ee .bashrc.init
+#1554568607
+ee .bashrc.functions
+#1554568616
+ttr
+#1554568709
+ee .bashrc.init
+#1554568774
+pgrep ssh-agent
+#1554568873
+rm /tmp/ssh_agent
+#1554568881
+ssh-agent -k
+#1554568889
+pgrep ssh-agent
+#1554568898
+kill 21359
+#1554568903
+pgrep ssh-agent
+#1554568930
+ll /tmp/
+#1554568745
+ee .bashrc
+#1554568946
+ee .bashrc
+#1554569106
+ee bash_logout
+#1554569000
+ee .bash_profile
+#1554569218
+ll bashrc.*
+#1554569226
+ll .bashrc.*
+#1554569227
+ttr
+#1554569229
+ll .bashrc.*
+#1554568334
+ee .bash_profile
+#1554569292
+man pkill
+#1554569497
+last
+#1554569241
+ee .bashrc.init
+#1554569249
+ee .bashrc.functions
+#1554571092
+cat bin/colors.shell.src 
+#1554571113
+ee bin/colors.shell.src
+#1554571125
+ee .bashrc.functions
+#1554571133
+cat .bashrc
+#1554571217
+ee .bashrc
+#1554571430
+ttr
+#1554571440
+ll
+#1554571442
+ttr
+#1554571451
+cat .bash_profile 
+#1554571456
+ee .bash_profile 
+#1554571500
+ee .bashrc
+#1555009225
+cd $HA
+#1555009230
+grep taisto home-assistant.log 
+#1555009235
+grep -i taisto home-assistant.log 
+#1555009283
+cat automations.yaml 
+#1555009370
+geany automations.yaml 
+#1555009739
+bg
+#1555009862
+dps
+#1555009866
+docker restart unifi
+#1555009745
+tf $HAL
+#1555065624
+cd $HA
+#1555065628
+cat home-assistant.log 
+#1555068641
+cd
+#1555068644
+ee .bashrc.alias
+#1555068653
+ge &
+#1555068711
+tf $HAL
+#1555068780
+cd $HA
+#1555068785
+grep device home-assistant.log 
+#1555068796
+tf $HAL
+#1555070040
+dps
+#1555070045
+dll ha
+#1555070053
+dps
+#1555071013
+pl
+#1555071020
+newaliases 
+#1555071028
+ll /etc/postfix/aliases*
+#1555071031
+date
+#1555071111
+mailq
+#1555071187
+pl
+#1555071234
+lsof -Pni
+#1555071237
+ss | grep 25
+#1555071244
+lsof -Pni
+#1555071247
+lsof -Pni | grep 25
+#1555071599
+pl
+#1555072317
+pll
+#1555072317
+pl
+#1555072319
+pl -f
+#1555072671
+ssh balrog
+#1555073446
+cat $HAL
+#1555079384
+cp home-assistant.log ha.log
+#1555079389
+grep taisto ha.log 
+#1555079459
+tf $HAL
+#1555080897
+cat home-assistant.log 
+#1555080968
+tf $HAL
+#1555081466
+cd
+#1555081469
+bash Bkp.sh -q
+#1555081555
+cd $HA
+#1555081558
+ll tts/
+#1555081562
+rm *mp3
+#1555081567
+rm tts/*mp3
+#1555081705
+stripcom /etc/ssh/sshd_config 
+#1555081715
+stl sshd
+#1555081720
+rl sshd
+#1555081724
+rl ssh
+#1555081726
+rl  | grep ssh
+#1555081729
+date
+#1555081739
+ee /etc/ssh/sshd_config
+#1555081807
+cd
+#1555081809
+cat .bashrc
+#1555081821
+ee .bashrc
+#1555081858
+cat .bashrc.alias 
+#1555081870
+ee .bashrc
+#1555081885
+ee .bashrc.init
+#1555081929
+cat /tmp/ssh_agent 
+#1555081939
+ee .bashrc
+#1555081963
+ttr
+#1555082001
+ll
+#1555082003
+ttr
+#1555082008
+find . -name .git
+#1555082014
+rsync -av .bash* bashConf/ -n
