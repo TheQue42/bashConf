@@ -60,7 +60,25 @@ alias ee="emacs -nw"
 alias ge="geany"
 alias stl="systemctl"
 alias show_route="netstat -rn"
-# rl, dl, are better as functions
+# rl, dl, pl, are better as functions (to handle bsd/linux diffs)
+
+##
+#
+# BSD Stuff
+#
+###
+if which dtpstree
+then
+    alias pstree=dtpstree
+fi
+alias sr4='route -n show -inet'
+alias sr6='route -n show -inet6 | egrep -vi "^F|UHLc"'
+alias srA='route -n show'
+alias sudo="sudo -H"
+alias rlist="pfctl -vv -s r | grep ^@"
+alias eep="emacs /etc/pf.conf"
+alias eed="emacs /etc/dhcpd.conf"
+
 
 #
 # Virtualization, Qemu, Etc
