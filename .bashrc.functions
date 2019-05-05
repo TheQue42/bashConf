@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
-logPrint "${GREEN}Reading ~/.bashrc.functions"
+logPrint "${GREEN}Reading .bashrc.functions"
+
+function isSuse()
+{
+    grep -qi suse /etc/os-release
+}
+export -f isSuse
+
+function isBsd()
+{
+    uname -a | egrep -iq bsd
+}
+export -f isBsd
 
 function is()
 {
@@ -18,7 +30,7 @@ function stripcom()
 }
 
 function ttr() {
-    find . -mount -name "*~" | xargs --verbose --no-run-if-empty rm
+    find . -mount -name "*~" | xargs -t -r rm
 }
 export -f ttr
 
@@ -214,29 +226,62 @@ function getBranchPoint()
 declare -fx getBranchPoint
 
 
+function reMatch {
+    typeset ec
+    unset -v reMatch # initialize output variable
+    cecho "String is: [$GREEN$1$CYAN] - Regexp: [$DEFAULT$BOLD$2$CYAN]"
+    [[ $1 =~ $2 ]] # perform the regex test
+    ec=$? # save exit code
+    if [[ $ec -eq 0 ]]; then # copy result to output variable
+	echo -e "1=${BASH_REMATCH[1]}, 2=${BASH_REMATCH[2]}, 3=${BASH_REMATCH[3]}, $BOLD${BLUE}ALL=$GREEN${BASH_REMATCH[@]}$DEFAULT"
+	[[ -n $BASH_VERSION ]] && reMatch=( "${BASH_REMATCH[@]}" )
+	[[ -n $KSH_VERSION ]]  && reMatch=( "${.sh.match[@]}" )
+	[[ -n $ZSH_VERSION ]]  && reMatch=( "$MATCH" "${match[@]}" )
+    else
+	echo NoMatch 1>&2
+    fi
+    return $ec
+}
 
 ################################################################################
 #                              HISTORY STUFF
 ################################################################################
 function log_bash_persistent_history() 
 { 
-    HISTTIMEFORMAT_REQ="[%Y] - %a, %d %b, %H:%M - ";
-    if [ "$HISTTIMEFORMAT" != "$HISTTIMEFORMAT_REQ" ]; then
-        echo -e $RED"HISTTIMEFORMAT is not valid for log_bash_persistent_history()";
-        return;
-    fi;
-    [[ $(history 1) =~ ^.*\[(.*?)\]\ -\ (.*?)\ -\ (.*)$ ]];
+    local HISTTIMEFORMAT="[%Y] - %a, %d %b, %H:%M - ";
+#    HISTTIMEFORMAT_REQ="$HISTTIMEFORMAT"
+#    if [ "$HISTTIMEFORMAT" != "$HISTTIMEFORMAT_REQ" ]; then
+#        echo -e $RED"HISTTIMEFORMAT is not valid for log_bash_persistent_history() $HISTTIMEFORMAT != $HISTTIMEFORMAT_REQ"$DEFAULT;
+#        return;
+#    fi;
+    LAST_CMD="$(history 1)"
+
+    #NR  [YEAR] - DATE_AND_TIME - COMMAND
+    #local regexp="^[0-9]{1,6}[ ]+\[[0-9]+\][ ]+-[ ]+(.*)[ ]+-[ ]+(.*)$"
+    
+    #[[ $(history 1) =~ ^[0-9]{1,6}\ \[.+\]\ -\ (.*)\ -\ +(.*)$ ]];
+    #[[ $(history 1) =~ ^.*\[(.*?)\]\ -\ (.*?)\ -\ (.*)$ ]];
+    #[[ $LAST_CMD =~ ^.*\[[0-9]+\]\ -\ (.*)\ -\ +(.*)$ ]];
+    regexp=".*\[(.*)\][ ]+-\ (.*)[ ]+-(.*)"
+    [[ $LAST_CMD =~ $regexp ]]
+    eq=$?
     local year_part="${BASH_REMATCH[1]}";
     local date_part="${BASH_REMATCH[2]}";
     local command_part="${BASH_REMATCH[3]}";
     if [[ $command_part =~ ^cliGrep ]]; then
         return;
     fi;
+    if [ -z "$command_part" ]
+    then
+	cecho red "Failed to log_bash_persistent_history($?) cmdpart=[$1] last_cmd=$LAST_CMD"
+	return
+    fi
+    
     if [ "$command_part" != "$PERSISTENT_HISTORY_LAST" ]; then
         echo $date_part "|" "$command_part" >> ~/.persistent_history.$year_part;
         export PERSISTENT_HISTORY_LAST="$command_part";
     else
-        if [ "$DEBUG" != "" ]; then
+        if [ "$HIST_DEBUG" != "" ]; then
             cecho "Not logging ($PERSISTENT_HISTORY_LAST == $command_part)";
         fi;
     fi
