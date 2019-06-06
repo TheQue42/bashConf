@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 #
 #
-
+# First(almost) things first.
+source ~/.bashrc.init
 
 # Exports variables needed for the rest, and set options with shopt
 source ~/.bashrc.env
-
-# First(almost) things first.
-source ~/.bashrc.init
 
 if [ -s ~/.bashrc.$(hostname -s) ]
 then  
@@ -16,7 +14,6 @@ fi
 
 #Add home/bin/ to path.
 export PATH="~/bin/:$PATH"
-
 
 source ~/.bashrc.alias
 
@@ -27,27 +24,28 @@ source ~/.gitComplete.bash
 __git_complete g __git_main
 __git_complete gco _git_checkout
 __git_complete gb _git_branch
-
-
-if  ! pgrep ssh-agent
+#MY_SSH_KEY="~/.ssh/taisto.pem"
+if  ! AGENT_PID=`pgrep  ssh-agent`
 then
-    if [ -z "$NO_SSH_AGENT" ]
+    logPrint "Starting SSH-AGENT SSH_AUTH_SOCK=[$SSH_AUTH_SOCK] SSH_AGENT_PID=[$SSH_AGENT_PID]"
+    export SSH_AGENT_START=`ssh-agent -s`
+    echo $SSH_AGENT_START >/tmp/ssh_agent
+    eval $SSH_AGENT_START >/dev/null
+    if [ -z "$MY_SSH_KEY" ]
     then
-	logPrint "Starting SSH-AGENT SSH_AUTH_SOCK=[$SSH_AUTH_SOCK] SSH_AGENT_PID=[$SSH_AGENT_PID]"
-	export SSH_AGENT_START=`ssh-agent -s`
-	echo $SSH_AGENT_START >/tmp/ssh_agent
-	eval $SSH_AGENT_START
-	if ! [ -z $TQ_SSH_KEY ]
-	then
-	    ssh-add $TQ_SSH_KEY
-	else  
-	    logPrint "Skipping adding SSH key to ssh-agent, running @: $SSH_AGENT_START"
-	fi
+	logPrint "Skipping adding SSH key to ssh-agent, running @: $SSH_AGENT_START"
+    else  
+	ssh-add $MY_SSH_KEY
     fi
 else
     INFO=`cat /tmp/ssh_agent`
-    logPrint "Reading SSH_AGENT info: [$INFO]"
-    eval $INFO
+    if [ -z "$INFO" ]
+    then
+        logPrint "Why havent we got accurate ssh_agent info? $(pgrep ssh-agent)"
+        find /tmp/ -type s -name "*agent*"
+    fi
+    logPrint "Reading SSH_AGENT info: [$INFO] (PID:$AGENT_PID)"
+    eval $INFO >/dev/null
 fi
 
 if isInteractiveShell

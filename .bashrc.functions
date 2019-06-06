@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-logPrint "${GREEN}Reading .bashrc.functions"
+logPrint "${GREEN}Reading ~/.bashrc.functions$DEFAULT"
 
 function isSuse()
 {
@@ -137,6 +137,7 @@ function cecho()
     UNDERLINE="\e[4m";
     BLINK="\e[5m";
     INVERSE="\e[7m";
+    
     if [ -z "$1" ]; then
         echo -en $DEFAULT;
         return;
@@ -207,6 +208,8 @@ function printGitBranchForPS1IfAvail
     if ! [ -z $GIT_BRANCH ]
     then
         echo -e $BOLD[${UNBOLD}${BLACK}git:$BLUE${GIT_BRANCH}$BLACK$BOLD]$UNBOLD
+    else
+	echo -e $DEFAULT
     fi
 }
 
