@@ -20,6 +20,7 @@ source ~/.bashrc.alias
 source ~/.bashrc.functions
 
 source ~/.gitComplete.bash
+source ~/.bash_complete
 
 __git_complete g __git_main
 __git_complete gco _git_checkout
