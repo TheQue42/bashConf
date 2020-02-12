@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-logPrint "${GREEN}Reading ~/.bashrc.functions$DEFAULT"
+logPrint "${GREEN}Reading ~/.bashrc.functions"
 
 function isSuse()
 {
