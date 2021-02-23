@@ -2,22 +2,22 @@
 #
 #
 # First(almost) things first.
-source ~/.bashrc.init
+source ~/.bash_init
 
 # Exports variables needed for the rest, and set options with shopt
-source ~/.bashrc.env
+source ~/.bash_env
 
-if [ -s ~/.bashrc.$(hostname -s) ]
+if [ -s ~/.bash_$(hostname -s) ]
 then  
-    source ~/.bashrc.$(hostname -s)
+    source ~/.bash_$(hostname -s)
 fi
 
 #Add home/bin/ to path.
 export PATH="~/bin/:$PATH"
 
-source ~/.bashrc.alias
+source ~/.bash_alias
 
-source ~/.bashrc.functions
+source ~/.bash_functions
 
 source ~/.gitComplete.bash
 source ~/.bash_complete

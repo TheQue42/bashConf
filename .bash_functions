@@ -4,8 +4,14 @@ logPrint "${GREEN}Reading ~/.bashrc.functions"
 
 function isSuse()
 {
-    grep -qi suse /etc/os-release
+    if [ -s /etc/os-release ]
+    then
+	grep -qi suse /etc/os-release
+    else
+	return 1
+    fi
 }
+
 export -f isSuse
 
 function isBsd()
