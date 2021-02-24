@@ -1,0 +1,30 @@
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin:~/bin
+CVSROOT=anoncvs@anoncvs.eu.openbsd.org:/cvs
+CVS_RSH=/usr/bin/ssh
+PS1="[\u@\h] \w >\\$ "
+EDITOR=emacs
+TERM=vt220
+HOME=/root
+#PKG_PATH="https://www.mirrorservice.org/pub/OpenBSD//$(uname -r)/packages/$(arch -s)/:http://ftp.eu.openbsd.org/pub/OpenBSD/$(uname -r)/packages/$(arch -s)/"
+#PKG_PATH="https://stable.mtier.org/updates/$(uname -r)/$(arch -s)/:${PKG_PATH}"
+export PATH CVS_RSH CVSROOT PS1 RSYNC_RSH HOME TAPE EDITOR TERM PKG_PATH
+ulimit -c 0
+umask 022
+
+export NO_SSH_AGENT=true
+
+###TQ-TODO: Do we need this in .bashrc.init?
+
+case "$-" in
+*i*)    # interactive shell
+	if [ -x /usr/bin/tset ]; then
+	    if [ X"$XTERM_VERSION" = X"" ]; then
+		eval `/usr/bin/tset -sQ '-munknown:?vt220' $TERM`
+		else
+		eval `/usr/bin/tset -IsQ '-munknown:?vt220' $TERM`
+		fi
+	    fi
+	;;
+esac
+
+alias egrep='ggrep -Pi '

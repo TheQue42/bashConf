@@ -2,13 +2,24 @@
 #
 #
 # First(almost) things first.
-source ~/.bash_init
+if [ -s ~/.bash_init ]
+then  
+	source ~/.bash_init
+else
+    logPrint "Skipping missing ~/.bash_init"	
+fi
 
-# Exports variables needed for the rest, and set options with shopt
-source ~/.bash_env
+# Exports variables needed for the rest, and set options with shopt (Move to .init?)
+if [ -s ~/.bash_env ]
+then  
+	source ~/.bash_env
+else
+    logPrint "Skipping missing ~/.bash_env"	
+fi
 
 if [ -s ~/.bash_$(hostname -s) ]
 then  
+
     source ~/.bash_$(hostname -s)
 fi
 
