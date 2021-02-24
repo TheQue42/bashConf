@@ -2,69 +2,85 @@
 #
 #
 # First(almost) things first.
-if [ -s ~/.bash_init ]
+if [ -s ~/.bashrc.init ]
 then  
-	source ~/.bash_init
+	source ~/.bashrc.init
 else
-    logPrint "Skipping missing ~/.bash_init"	
+    logPrint "Skipping missing ~/.bashrc.init"	
 fi
 
 # Exports variables needed for the rest, and set options with shopt (Move to .init?)
-if [ -s ~/.bash_env ]
+if [ -s ~/.bashrc.env ]
 then  
-	source ~/.bash_env
+	source ~/.bashrc.env
 else
-    logPrint "Skipping missing ~/.bash_env"	
+    logPrint "Skipping missing ~/.bashrc.env"	
 fi
 
-if [ -s ~/.bash_$(hostname -s) ]
+if [ -s ~/.bashrc.$(hostname -s) ]
 then  
-
-    source ~/.bash_$(hostname -s)
+    source ~/.bashrc.$(hostname -s)
 fi
 
 #Add home/bin/ to path.
 export PATH="~/bin/:$PATH"
 
-source ~/.bash_alias
-
-source ~/.bash_functions
-
-source ~/.gitComplete.bash
-source ~/.bash_complete
-
-__git_complete g __git_main
-__git_complete gco _git_checkout
-__git_complete gb _git_branch
-#MY_SSH_KEY="~/.ssh/taisto.pem"
-if  ! AGENT_PID=`pgrep  ssh-agent`
-then
-    logPrint "Starting SSH-AGENT SSH_AUTH_SOCK=[$SSH_AUTH_SOCK] SSH_AGENT_PID=[$SSH_AGENT_PID]"
-    export SSH_AGENT_START=`ssh-agent -s`
-    echo $SSH_AGENT_START >/tmp/ssh_agent
-    eval $SSH_AGENT_START >/dev/null
-    if [ -z "$MY_SSH_KEY" ]
-    then
-	logPrint "Skipping adding SSH key to ssh-agent, running @: $SSH_AGENT_START"
-    else  
-	ssh-add $MY_SSH_KEY
-    fi
-else
-    INFO=`cat /tmp/ssh_agent`
-    if [ -z "$INFO" ]
-    then
-        logPrint "Why havent we got accurate ssh_agent info? $(pgrep ssh-agent)"
-        find /tmp/ -type s -name "*agent*"
-    fi
-    logPrint "Reading SSH_AGENT info: [$INFO] (PID:$AGENT_PID)"
-    eval $INFO >/dev/null
-fi
-
 if isInteractiveShell
 then
-    echo "Finished processing .bashrc for user $USER (HOME=$HOME)"
+    # Source all aliases
+    source ~/.bashrc.alias
+
+    # Source all bash functions. (And manually 'export -f' them)
+    source ~/.bashrc.functions
+
+    source ~/.bashrc.git #https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+    source ~/.bashrc.complete # Alias completion!
+
+    __git_complete g __git_main
+    __git_complete gco _git_checkout
+    __git_complete gb _git_branch
+
+    if [ -z "$SSH_AGENT_PID" ]
+    then
+        #MY_SSH_KEY="~/.ssh/taisto.pem"
+        AGENT_PID=`pgrep -u $USER ssh-agent`
+        AGENT_INFO_FILE=/tmp/ssh_agent_$USER
+        if  [ -z "$AGENT_PID" ]
+        then
+            logPrint "Starting SSH-AGENT (Current SSH_AGENT_PID: $SSH_AGENT_PID)"
+            export SSH_AGENT_START=`ssh-agent -s`
+            echo $SSH_AGENT_START > $AGENT_INFO_FILE
+            eval $SSH_AGENT_START >/dev/null
+            if [ -z "$MY_SSH_KEY" ]
+            then
+                logPrint "Skipping adding SSH key to ssh-agent, running @: $SSH_AGENT_START"
+            else
+                ssh-add $MY_SSH_KEY
+            fi
+        else
+            INFO=`cat $AGENT_INFO_FILE`
+            if [ -z "$INFO" ]
+            then
+                logPrint "Why havent we got accurate ssh_agent info? $(pgrep -u $USER ssh-agent) AGENT_PID=$AGENT_PID"
+            else
+                logPrint "Reading saved ssh-agent info from $AGENT_INFO_FILE"
+                eval $INFO >/dev/null
+            fi
+            echo "SSH_AGENT_PID: $SSH_AGENT_PID"
+        fi
+    else
+        logPrint "Skipping ssh agent startup. SSH_AGENT_PID: $SSH_AGENT_PID"
+    fi
+
+    if [ $USER == root ]
+    then
+        RH="$RED"
+        export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
+    else
+        RH="$GREEN"
+        export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
+    fi
+    export PROMPT_COMMAND="history -a;log_bash_persistent_history;date +%H:%M-%a_%d;"
+    logPrint "Finished processing ${GREEN}.bashrc$DEFAULT for user $USER (HOME=$HOME)"
     uptime
-    # Only run when interactive, otherwise messes up scp..
 fi
-#export PS1="\$(printGitBranchForPS1IfAvail)\u@\h:$BLUE$BOLD\W$DEFAULT\e[0m/]>"
-export PS1="\$(printGitBranchForPS1IfAvail)\u@\h:\W]>"

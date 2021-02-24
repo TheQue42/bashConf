@@ -1,3 +1,7 @@
+#
+# .bashrc.init
+#
+
 DEFAULT="\e[0m";
 BOLD="\e[1m";
 UNBOLD="\e[22m";
@@ -15,7 +19,7 @@ function isInteractiveShell()
   then
       return 0
   else
-    return -1
+      return -1
   fi
   
 }
@@ -40,5 +44,5 @@ function isBsd()
 
 export -f logPrint isBsd isSuse isInteractiveShell
 
-logPrint "${GREEN}Reading bashrc.init$DEFAULT"
+logPrint "${GREEN}Read bashrc.init$DEFAULT"
 

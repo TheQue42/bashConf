@@ -67,7 +67,7 @@ export -f is
 
 function stripcom()
 {
-    egrep -v "^(\s*#|$)" $1 
+    egrep -v "^(\s*#|$)" $1
 }
 
 function ttr() {
@@ -190,7 +190,7 @@ function cecho()
         return;
     fi
     if [[ $1 =~ bold ]]
-	then
+    then
         SET_BOLD=$BOLD;
         shift;
     else
@@ -255,13 +255,13 @@ function printGitBranchForPS1IfAvail
     GIT_BRANCH=`parse_git_branch`
     if [ $PWD == $HOME ]
     then
-    	return 0
+        return 0
     fi
     if ! [ -z $GIT_BRANCH ]
     then
         echo -e $BOLD[${UNBOLD}${BLACK}git:$BLUE${GIT_BRANCH}$BLACK$BOLD]$UNBOLD
     else
-    	echo -e $DEFAULT # TODO: CHeck if it messess upp screen-positions...
+        echo -e $DEFAULT # TODO: CHeck if it messess upp screen-positions...
     fi
 }
 
@@ -328,8 +328,8 @@ function log_bash_persistent_history()
     fi;
     if [ -z "$command_part" ]
     then
-    	cecho red "Failed to log_bash_persistent_history($?) cmdpart=[$1] last_cmd=$LAST_CMD"
-    	return
+        cecho red "Failed to log_bash_persistent_history($?) cmdpart=[$1] last_cmd=$LAST_CMD"
+        return
     fi
 
     if [ "$command_part" != "$PERSISTENT_HISTORY_LAST" ]; then
@@ -524,6 +524,7 @@ function dDump()
    fi
 }
 
+
 function cdLL()
 {
    if [ -z $1 ]
@@ -555,63 +556,32 @@ LoopPfLogs ()
 {
     if [[ "$1" =~ -m[0-9]+ ]]
     then
-		MTIME="-mtime ${1#-m}"
-		CMD="find /var/log/ -name \"pflo*\" $MTIME"
-		shift
+        MTIME="-mtime ${1#-m}"
+        CMD="find /var/log/ -name \"pflo*\" $MTIME"
+        shift
     else
-	    CMD="find /var/log/ -name \"pflo*\""
+        CMD="find /var/log/ -name \"pflo*\""
     fi
-    
-	cecho green "Treating [$*] as tcpdump filter"
+
+    cecho green "Treating [$*] as tcpdump filter"
     sleep 0.5
     cecho blue FindCMD:[$CMD]
     sleep 1
     MONTH=$(date '+%h')
     for i in `eval $CMD`
     do
-		FILE=$(ls -l $i | perl -pe "s#.*$MONTH#$MONTH#")
-		cecho "Reading $FILE" >&2
-		sleep 0.1
-		continue
-		if [[ $i =~ pf.*gz ]]
-		then
-			zcat $i | tcpdump -netttr - $*;
-		else
-			tcpdump -netttr $i $*
-		fi
+        FILE=$(ls -l $i | perl -pe "s#.*$MONTH#$MONTH#")
+        cecho "Reading $FILE" >&2
+        sleep 0.1
+        continue
+        if [[ $i =~ pf.*gz ]]
+        then
+            zcat $i | tcpdump -netttr - $*;
+        else
+            tcpdump -netttr $i $*
+        fi
     done
 
 }
 export -f LoopPfLogs
-
-
-##################################################################################################################
-#                                             ERICSSON CMCO STUFF
-##################################################################################################################
-function _tq_cmco_comp()
-{
-    local cur=${COMP_WORDS[COMP_CWORD]};
-    LIST="carsel dns http icmp netmon numana numnorm parsers sigcomp sip";
-    COMPREPLY=($(compgen -W "$LIST" -- $cur))
-}
-declare -fx _tq_cmco_comp
-
-function _tq_cmco_start()
-{
-    local cur=${COMP_WORDS[COMP_CWORD]};
-    LIST="";
-    for i in `ls -ld /local/scratch/git/* | egrep "^d" | perl -ane 'print $F[8] . "\n" '`;
-    do
-        NEW=`basename $i`;
-        LIST="$LIST $NEW";
-    done;
-    COMPREPLY=($(compgen -W "$LIST" -- $cur))
-}
-declare -fx _tq_cmco_start
-function parse_git_root()
-{
-    GIT_DIR=${PWD##/local/scratch/git/}
-    GIT_ROOT=${GIT_DIR%%/*}
-    echo $GIT_ROOT
-}
 

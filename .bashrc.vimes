@@ -1,3 +1,16 @@
+#
+# .bashrc.vimes.
+#
+
+logPrint "Processing ~/.bashrc.$(hostname -s)"
+
 export NO_SSH_AGENT=YES
 HA=/var/lib/home-assistant
 HAL=/var/lib/home-assistant/home-assistant.log
+
+###TQ-TODO:
+#alias tf="tail -f $HAL | egrep -v libopenzwave"
+#alias tF="tail -F "
+
+alias eec="ee $HA/configuration.yaml"
+alias eea="ee $HA/automations.yaml"
