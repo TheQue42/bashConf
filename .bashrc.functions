@@ -185,7 +185,7 @@ function cecho()
     BLINK="\e[5m";
     INVERSE="\e[7m";
     if [ -z "$1" ]
-	then
+    then
         echo -en $DEFAULT;
         return;
     fi
