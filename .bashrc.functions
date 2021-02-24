@@ -1,17 +1,51 @@
 #!/usr/bin/env bash
 
-logPrint "${GREEN}Reading ~/.bashrc.functions"
+logPrint "${GREEN}Reading ~/.bashrc.functions$DEFAULT"
+
+#TQ-TODO: Create sections for different types of functions?
+
+function pf-sniff()
+{
+    if [[ $1 =~ file|read|-r ]]
+    then
+    shift
+    ls -l /var/log/pflog.*
+    sleep 0.2
+    tcpdump -netttr /var/log/pflog $*
+    else
+    tcpdump -nettti pflog0 $*
+    fi
+}
+export -f pf-sniff
+
+function pf-rules()
+{
+    FILTER=""
+    if [ -z $1 ]
+    then
+        pfctl -vv -s r | egrep "@"
+    else
+        for i in $*
+        do
+            FILTER="egrep $i|$FILTER"
+        done
+        PF_FILTER=${FILTER%|}
+        cecho cyan "Will eval: [pfctl -vv -s r | grep @ | $PF_FILTER]"
+        eval "pfctl -vv -s r | grep @ | $PF_FILTER"
+    fi
+
+}
+export -f pf-rules
 
 function isSuse()
 {
     if [ -s /etc/os-release ]
     then
-	grep -qi suse /etc/os-release
+        grep -qi suse /etc/os-release
     else
-	return 1
+        return 1
     fi
 }
-
 export -f isSuse
 
 function isBsd()
@@ -22,7 +56,8 @@ export -f isBsd
 
 function is()
 {
-    if type $1 | egrep -i --color=auto -iq "function"; then
+    if type $1 | egrep -i --color=auto -iq "function"
+    then
         type $1;
     else
         ali\as $1;
@@ -40,71 +75,77 @@ function ttr() {
 }
 export -f ttr
 
+function tf()
+{
+    if [ $# -eq 1 ]
+    then
+        tail -f $1
+    elif [ -z $1 ]
+    then
+        tail -f /var/log/messages
+    fi
+}
+
 function dl()
 {
-  if ! isBsd 
+  if ! isBsd
   then
-    journalctl $* | egrep "error|warn|daemon"
+      journalctl $* | egrep "error|warn|daemon"
   else
-    cat /var/log/daemon
+      cat /var/log/daemon
   fi
 }
 export -f dl
 
 function pl()
 {
-  if ! isBsd 
+  if ! isBsd
   then
     journalctl -b $* | egrep -i "postfix|smtp"
   else
-    cat /var/log/maillog
+    if [ x"$1" == x"-f" ]
+    then
+        CAT="tail -f"
+    else
+        CAT=cat
+    fi
+    $CAT /var/log/maillog
   fi
 }
 export -f pl
 
 function rl()
 {
-  if ! isBsd 
+  if ! isBsd
   then
       if [[ "$1" = [0-9]+ ]]
       then
-	  echo "Last $1 lines..."
-	  LAST=$1
-	  shift
+        echo "Last $1 lines..."
+        LAST=$1
+        shift
       fi
-      journalctl -n $LAST $* 
+      journalctl -n $LAST $*
   else
     cat /var/log/daemon
   fi
 }
 
-function hl()
-{
-    if [[ "$1" = [0-9]+ ]]
-    then
-	echo "Last $1 lines..."
-	LAST=$1
-	shift
-    fi
-    tail -n ${LAST:-100} $HAL $* 
-}
-export -f rl hl
-
+export -f rl
 
 function eeh()
 {
     if [ -z "$1" ]
     then
-	emacs -nw $HA/configuration.yaml
+    emacs -nw $HA/configuration.yaml
     else
-	cecho -bold emacs -nw $HA/${1}*yaml
-	sleep 0.4
-	if [[ $1 =~ auto ]]
-	then
-	    emacs -nw $HA/auto*yaml
-	else
-	    emacs -nw $HA/$1*yaml
-	fi
+    cecho -bold emacs -nw $HA/${1}*yaml
+    sleep 0.4
+    if [[ $1 =~ auto ]]
+    then
+        emacs -nw $HA/auto*yaml
+    else
+        emacs -nw $HA/$1*yaml
+    fi
     fi
 }
 
@@ -112,7 +153,7 @@ function eeh()
 function psG()
 {
   PS_PARAMS="-elF"  #or alx?
-  
+
   echo -e $YELLOW"Full List:"$DEFAULT
   ps $PS_PARAMS | grep $1 | grep -v grep
   echo ""
@@ -127,8 +168,8 @@ function colstrip()
 }
 
 
-function cecho() 
-{ 
+function cecho()
+{
     DEFAULT="\e[0m";
     BOLD="\e[1m";
     BLACK="\e[30m";
@@ -143,17 +184,18 @@ function cecho()
     UNDERLINE="\e[4m";
     BLINK="\e[5m";
     INVERSE="\e[7m";
-    
-    if [ -z "$1" ]; then
+    if [ -z "$1" ]
+	then
         echo -en $DEFAULT;
         return;
-    fi;
-    if [[ $1 =~ bold ]]; then
+    fi
+    if [[ $1 =~ bold ]]
+	then
         SET_BOLD=$BOLD;
         shift;
     else
         SET_BOLD=$NOTBOLD;
-    fi;
+    fi
     if [[ $1 =~ red ]]; then
         COLOR=$RED;
         shift;
@@ -211,16 +253,20 @@ declare -fx cecho
 function printGitBranchForPS1IfAvail
 {
     GIT_BRANCH=`parse_git_branch`
+    if [ $PWD == $HOME ]
+    then
+    	return 0
+    fi
     if ! [ -z $GIT_BRANCH ]
     then
         echo -e $BOLD[${UNBOLD}${BLACK}git:$BLUE${GIT_BRANCH}$BLACK$BOLD]$UNBOLD
     else
-	echo -e $DEFAULT
+    	echo -e $DEFAULT # TODO: CHeck if it messess upp screen-positions...
     fi
 }
 
-function parse_git_branch() 
-{ 
+function parse_git_branch()
+{
     ref=$(git-symbolic-ref HEAD 2> /dev/null) || return;
     echo ${ref#refs/heads/}
 }
@@ -234,7 +280,7 @@ function getBranchPoint()
 }
 declare -fx getBranchPoint
 
-
+###TQ-TODO: For what
 function reMatch {
     typeset ec
     unset -v reMatch # initialize output variable
@@ -242,12 +288,12 @@ function reMatch {
     [[ $1 =~ $2 ]] # perform the regex test
     ec=$? # save exit code
     if [[ $ec -eq 0 ]]; then # copy result to output variable
-	echo -e "1=${BASH_REMATCH[1]}, 2=${BASH_REMATCH[2]}, 3=${BASH_REMATCH[3]}, $BOLD${BLUE}ALL=$GREEN${BASH_REMATCH[@]}$DEFAULT"
-	[[ -n $BASH_VERSION ]] && reMatch=( "${BASH_REMATCH[@]}" )
-	[[ -n $KSH_VERSION ]]  && reMatch=( "${.sh.match[@]}" )
-	[[ -n $ZSH_VERSION ]]  && reMatch=( "$MATCH" "${match[@]}" )
+    echo -e "1=${BASH_REMATCH[1]}, 2=${BASH_REMATCH[2]}, 3=${BASH_REMATCH[3]}, $BOLD${BLUE}ALL=$GREEN${BASH_REMATCH[@]}$DEFAULT"
+    [[ -n $BASH_VERSION ]] && reMatch=( "${BASH_REMATCH[@]}" )
+    [[ -n $KSH_VERSION ]]  && reMatch=( "${.sh.match[@]}" )
+    [[ -n $ZSH_VERSION ]]  && reMatch=( "$MATCH" "${match[@]}" )
     else
-	echo NoMatch 1>&2
+    echo NoMatch 1>&2
     fi
     return $ec
 }
@@ -255,19 +301,19 @@ function reMatch {
 ################################################################################
 #                              HISTORY STUFF
 ################################################################################
-function log_bash_persistent_history() 
-{ 
+function log_bash_persistent_history()
+{
     local HISTTIMEFORMAT="[%Y] - %a, %d %b, %H:%M - ";
-#    HISTTIMEFORMAT_REQ="$HISTTIMEFORMAT"
-#    if [ "$HISTTIMEFORMAT" != "$HISTTIMEFORMAT_REQ" ]; then
-#        echo -e $RED"HISTTIMEFORMAT is not valid for log_bash_persistent_history() $HISTTIMEFORMAT != $HISTTIMEFORMAT_REQ"$DEFAULT;
-#        return;
-#    fi;
+    HISTTIMEFORMAT_REQ="$HISTTIMEFORMAT"
+    if [ "$HISTTIMEFORMAT" != "$HISTTIMEFORMAT_REQ" ]; then
+        echo -e $RED"HISTTIMEFORMAT is not valid for log_bash_persistent_history() $HISTTIMEFORMAT != $HISTTIMEFORMAT_REQ"$DEFAULT;
+        return;
+    fi;
     LAST_CMD="$(history 1)"
 
     #NR  [YEAR] - DATE_AND_TIME - COMMAND
     #local regexp="^[0-9]{1,6}[ ]+\[[0-9]+\][ ]+-[ ]+(.*)[ ]+-[ ]+(.*)$"
-    
+
     #[[ $(history 1) =~ ^[0-9]{1,6}\ \[.+\]\ -\ (.*)\ -\ +(.*)$ ]];
     #[[ $(history 1) =~ ^.*\[(.*?)\]\ -\ (.*?)\ -\ (.*)$ ]];
     #[[ $LAST_CMD =~ ^.*\[[0-9]+\]\ -\ (.*)\ -\ +(.*)$ ]];
@@ -282,10 +328,10 @@ function log_bash_persistent_history()
     fi;
     if [ -z "$command_part" ]
     then
-	cecho red "Failed to log_bash_persistent_history($?) cmdpart=[$1] last_cmd=$LAST_CMD"
-	return
+    	cecho red "Failed to log_bash_persistent_history($?) cmdpart=[$1] last_cmd=$LAST_CMD"
+    	return
     fi
-    
+
     if [ "$command_part" != "$PERSISTENT_HISTORY_LAST" ]; then
         echo $date_part "|" "$command_part" >> ~/.persistent_history.$year_part;
         export PERSISTENT_HISTORY_LAST="$command_part";
@@ -331,8 +377,8 @@ function cliGrep()
 declare -fx cliGrep
 
 
-function doneDate() 
-{ 
+function doneDate()
+{
     PERM_HIST=~/.persistent_history.20`date +%y`;
     if [[ $1 =~ -m ]]; then
         MONTH=$2;
@@ -505,19 +551,53 @@ function cdLL()
 }
 
 
+LoopPfLogs ()
+{
+    if [[ "$1" =~ -m[0-9]+ ]]
+    then
+		MTIME="-mtime ${1#-m}"
+		CMD="find /var/log/ -name \"pflo*\" $MTIME"
+		shift
+    else
+	    CMD="find /var/log/ -name \"pflo*\""
+    fi
+    
+	cecho green "Treating [$*] as tcpdump filter"
+    sleep 0.5
+    cecho blue FindCMD:[$CMD]
+    sleep 1
+    MONTH=$(date '+%h')
+    for i in `eval $CMD`
+    do
+		FILE=$(ls -l $i | perl -pe "s#.*$MONTH#$MONTH#")
+		cecho "Reading $FILE" >&2
+		sleep 0.1
+		continue
+		if [[ $i =~ pf.*gz ]]
+		then
+			zcat $i | tcpdump -netttr - $*;
+		else
+			tcpdump -netttr $i $*
+		fi
+    done
+
+}
+export -f LoopPfLogs
+
+
 ##################################################################################################################
 #                                             ERICSSON CMCO STUFF
 ##################################################################################################################
-function _tq_cmco_comp() 
-{ 
+function _tq_cmco_comp()
+{
     local cur=${COMP_WORDS[COMP_CWORD]};
     LIST="carsel dns http icmp netmon numana numnorm parsers sigcomp sip";
     COMPREPLY=($(compgen -W "$LIST" -- $cur))
 }
 declare -fx _tq_cmco_comp
 
-function _tq_cmco_start() 
-{ 
+function _tq_cmco_start()
+{
     local cur=${COMP_WORDS[COMP_CWORD]};
     LIST="";
     for i in `ls -ld /local/scratch/git/* | egrep "^d" | perl -ane 'print $F[8] . "\n" '`;
@@ -534,3 +614,4 @@ function parse_git_root()
     GIT_ROOT=${GIT_DIR%%/*}
     echo $GIT_ROOT
 }
+
