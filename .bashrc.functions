@@ -6,14 +6,24 @@ logPrint "${GREEN}Reading ~/.bashrc.functions$DEFAULT"
 
 function pf-sniff()
 {
+    DASH_N=${NO_DNS:--n}
+    cecho "Using DASH_N=${DASH_N}   (Set via \${NO_DNS:-n})"
+    sleep 0.2
     if [[ $1 =~ file|read|-r ]]
     then
-    shift
-    ls -l /var/log/pflog.*
-    sleep 0.2
-    tcpdump -netttr /var/log/pflog $*
+		if [[ $1 =~ all ]] # DONT 'shift' before
+		then
+			shift
+			for i in $(ls -rt /var/log/pf*gz)
+			do
+				zcat $i | tcpdump $DASH_N -etttr - $*
+			done
+		else
+			shift
+			tcpdump $DASH_N -etttr /var/log/pflog $*
+		fi
     else
-    tcpdump -nettti pflog0 $*
+        tcpdump $DASH_N -nettti pflog0 $*
     fi
 }
 export -f pf-sniff
@@ -184,11 +194,18 @@ function cecho()
     UNDERLINE="\e[4m";
     BLINK="\e[5m";
     INVERSE="\e[7m";
+
     if [ -z "$1" ]
-	then
+    then
         echo -en $DEFAULT;
         return;
     fi
+    if ! [ -z "$RUNNING_FROM_CRON" ]
+    then
+        echo "$*"
+    return 
+    fi
+    
     if [[ $1 =~ bold ]]
     then
         SET_BOLD=$BOLD;

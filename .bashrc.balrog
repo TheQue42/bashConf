@@ -22,3 +22,4 @@ case "$-" in
 esac
 
 alias egrep='ggrep -Pi '
+export CHANGELOG_DST=taisto@ip-s.se

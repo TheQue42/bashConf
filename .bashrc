@@ -24,6 +24,17 @@ fi
 
 #Add home/bin/ to path.
 export PATH="~/bin/:$PATH"
+if [ -d ~/bin/$(hostname -s) ]
+then
+    echo "Adding ~/bin/$(hostname -s) to PATH"
+    export PATH="~/bin/$(hostname -s):$PATH"
+fi
+
+if [ -d ~/bin/$(uname -s) ]
+then
+    echo "Adding ~/bin/$(uname -s) to PATH"
+    export PATH="~/bin/$(uname -s):$PATH"
+fi
 
 if isInteractiveShell
 then
@@ -40,7 +51,7 @@ then
     __git_complete gco _git_checkout
     __git_complete gb _git_branch
 
-    if [ -z "$SSH_AGENT_PID" ]
+    if [ -z "$SSH_AGENT_PID"x ]
     then
         #MY_SSH_KEY="~/.ssh/taisto.pem"
         AGENT_PID=`pgrep -u $USER ssh-agent`
