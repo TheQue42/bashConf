@@ -26,13 +26,13 @@ fi
 export PATH="~/bin/:$PATH"
 if [ -d ~/bin/$(hostname -s) ]
 then
-    echo "Adding ~/bin/$(hostname -s) to PATH"
+    logPrint "Adding ~/bin/$(hostname -s) to PATH"
     export PATH="~/bin/$(hostname -s):$PATH"
 fi
 
 if [ -d ~/bin/$(uname -s) ]
 then
-    echo "Adding ~/bin/$(uname -s) to PATH"
+    logPrint "Adding ~/bin/$(uname -s) to PATH"
     export PATH="~/bin/$(uname -s):$PATH"
 fi
 
