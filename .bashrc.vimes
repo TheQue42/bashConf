@@ -5,12 +5,16 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 export NO_SSH_AGENT=YES
-HA=/var/lib/home-assistant
-HAL=/var/lib/home-assistant/home-assistant.log
+export HA=/var/lib/home-assistant
+export HAL=/var/lib/home-assistant/home-assistant.log
 
-###TQ-TODO:
-#alias tf="tail -f $HAL | egrep -v libopenzwave"
-#alias tF="tail -F "
+export HAC="$HA/configuration.yaml"
+export HAA="$HA/automations.yaml"
+export HAG="$HA/groups.yaml"
+
+export OZLOG=/var/lib/ha/OZW_Log.txt
+export MOTION_IN=/var/lib/unifi-video/logs/motion.log; export MOTION_OUT=/var/lib/ha/camera_motion.log
 
 alias eec="ee $HA/configuration.yaml"
 alias eea="ee $HA/automations.yaml"
+alias zzz="zypper lu"
