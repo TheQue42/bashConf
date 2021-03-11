@@ -4,7 +4,6 @@
 
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
-export NO_SSH_AGENT=YES
 export HA=/var/lib/home-assistant
 export HAL=/var/lib/home-assistant/home-assistant.log
 

@@ -51,7 +51,7 @@ then
     __git_complete gco _git_checkout
     __git_complete gb _git_branch
 
-    if [ -z "$SSH_AGENT_PID"x ]
+    if [ -z "$SSH_AGENT_PID" ]
     then
         #MY_SSH_KEY="~/.ssh/taisto.pem"
         AGENT_PID=`pgrep -u $USER ssh-agent`
@@ -91,7 +91,7 @@ then
         RH="$GREEN"
         export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
     fi
-    export PROMPT_COMMAND="history -a;log_bash_persistent_history;date +%H:%M-%a_%d;"
+    # export PROMPT_COMMAND="history -a;log_bash_persistent_history;date +%H:%M-%a_%d;" # Set in .bashrc.env
     logPrint "Finished processing ${GREEN}.bashrc$DEFAULT for user $USER (HOME=$HOME)"
     uptime
 fi

@@ -446,11 +446,15 @@ declare -fx doneDate
 #######################
 function dps()
 {
-    TABLE="table {{.ID}}\t{{.Names}}\t{{.Status}}"
-#    echo table=$TABLE
+    TABLE="table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}\t{{.Networks}}"
+    #    echo table=$TABLE
     if [ -z $1 ]
     then
         docker ps --format "$TABLE"
+    elif [[ "$1" =~ -all ]]
+    then
+	shift
+	docker ps --all --format "$TABLE" | egrep "(CONTAINER ID|$*)" 
     else
         docker ps --format "$TABLE" | egrep "(CONTAINER ID|$*)"
     fi
