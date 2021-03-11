@@ -526,3 +526,8 @@ _complete_alias() {
 #complete -F _complete_alias myalias2
 #complete -F _complete_alias myalias3
 
+for i in $(alias | perl -pe 's#alias ##' | cut -d "=" -f1 | grep "^[a-aA-Z]")
+do
+    complete -F _complete_alias $i
+done
+
