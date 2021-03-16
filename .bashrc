@@ -19,7 +19,7 @@ fi
 
 if [ -s ~/.bashrc.$(hostname -s) ]
 then  
-    logPrint "Sourcing ~/.bashrc.$(uname -s)"
+    logPrint "Sourcing ~/.bashrc.$(hostname -s)"
     source ~/.bashrc.$(hostname -s)
 fi
 
@@ -29,8 +29,9 @@ then
     source ~/.bashrc.$(uname -s)
 fi
 
-#Add home/bin/ to path.
+#Add home/bin/ to path. (This will add incrementally...?)
 export PATH="~/bin/:$PATH"
+
 if [ -d ~/bin/$(hostname -s) ]
 then
     logPrint "Adding ~/bin/$(hostname -s) to PATH"
@@ -89,7 +90,8 @@ then
     else
         logPrint "Skipping ssh agent startup. SSH_AGENT_PID: $SSH_AGENT_PID"
     fi
-
+    # There seems to be some issues with $COLORS in the PS1, that causes havok with console settings/cursor location sometimes..
+    # Created bash function 'consoleReset' to repair PS1
     if [ $USER == root ]
     then
         RH="$RED"
@@ -98,7 +100,6 @@ then
         RH="$GREEN"
         export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
     fi
-    # export PROMPT_COMMAND="history -a;log_bash_persistent_history;date +%H:%M-%a_%d;" # Set in .bashrc.env
     logPrint "Finished processing ${GREEN}.bashrc$DEFAULT for user $USER (HOME=$HOME)"
     uptime
 fi
