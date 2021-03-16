@@ -4,6 +4,16 @@ logPrint "${GREEN}Reading ~/.bashrc.functions$DEFAULT"
 
 #TQ-TODO: Create sections for different types of functions?
 
+function consoleReset()
+{
+    export PS_OLD="$PS1"
+    export PS1="\u@\h:\W]\n> "
+    resize
+    tput init
+    resize
+    echo "Old PS1 ==> [$PS_OLD]"
+}
+
 function pf-sniff()
 {
     DASH_N=${NO_DNS:--n}
