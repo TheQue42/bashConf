@@ -19,7 +19,14 @@ fi
 
 if [ -s ~/.bashrc.$(hostname -s) ]
 then  
+    logPrint "Sourcing ~/.bashrc.$(uname -s)"
     source ~/.bashrc.$(hostname -s)
+fi
+
+if [ -s ~/.bashrc.$(uname -s) ]
+then  
+    logPrint "Sourcing ~/.bashrc.$(uname -s)"
+    source ~/.bashrc.$(uname -s)
 fi
 
 #Add home/bin/ to path.
