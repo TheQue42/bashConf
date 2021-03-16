@@ -14,6 +14,18 @@ function consoleReset()
     echo "Old PS1 ==> [$PS_OLD]"
 }
 
+function ps1Git()
+{
+    if [ $USER == root ]
+    then
+        RH="$RED"
+        export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
+    else
+        RH="$GREEN"
+        export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
+    fi
+}
+
 function pf-sniff()
 {
     DASH_N=${NO_DNS:--n}
@@ -21,17 +33,17 @@ function pf-sniff()
     sleep 0.2
     if [[ $1 =~ file|read|-r ]]
     then
-		if [[ $1 =~ all ]] # DONT 'shift' before
-		then
-			shift
-			for i in $(ls -rt /var/log/pf*gz)
-			do
-				zcat $i | tcpdump $DASH_N -etttr - $*
-			done
-		else
-			shift
-			tcpdump $DASH_N -etttr /var/log/pflog $*
-		fi
+        if [[ $1 =~ all ]] # DONT 'shift' before
+        then
+            shift
+            for i in $(ls -rt /var/log/pf*gz)
+            do
+                zcat $i | tcpdump $DASH_N -etttr - $*
+            done
+        else
+            shift
+            tcpdump $DASH_N -etttr /var/log/pflog $*
+        fi
     else
         tcpdump $DASH_N -nettti pflog0 $*
     fi
@@ -213,9 +225,9 @@ function cecho()
     if ! [ -z "$RUNNING_FROM_CRON" ]
     then
         echo "$*"
-    return 
+    return
     fi
-    
+
     if [[ $1 =~ bold ]]
     then
         SET_BOLD=$BOLD;
@@ -463,8 +475,8 @@ function dps()
         docker ps --format "$TABLE"
     elif [[ "$1" =~ -all ]]
     then
-	shift
-	docker ps --all --format "$TABLE" | egrep "(CONTAINER ID|$*)" 
+    shift
+    docker ps --all --format "$TABLE" | egrep "(CONTAINER ID|$*)"
     else
         docker ps --format "$TABLE" | egrep "(CONTAINER ID|$*)"
     fi
