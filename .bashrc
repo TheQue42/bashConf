@@ -3,28 +3,28 @@
 #
 # First(almost) things first.
 if [ -s ~/.bashrc.init ]
-then  
-	source ~/.bashrc.init
+then
+    source ~/.bashrc.init
 else
-    logPrint "Skipping missing ~/.bashrc.init"	
+    logPrint "Skipping missing ~/.bashrc.init"
 fi
 
 # Exports variables needed for the rest, and set options with shopt (Move to .init?)
 if [ -s ~/.bashrc.env ]
-then  
-	source ~/.bashrc.env
+then
+    source ~/.bashrc.env
 else
-    logPrint "Skipping missing ~/.bashrc.env"	
+    logPrint "Skipping missing ~/.bashrc.env"
 fi
 
 if [ -s ~/.bashrc.$(hostname -s) ]
-then  
+then
     logPrint "Sourcing ~/.bashrc.$(hostname -s)"
     source ~/.bashrc.$(hostname -s)
 fi
 
 if [ -s ~/.bashrc.$(uname -s) ]
-then  
+then
     logPrint "Sourcing ~/.bashrc.$(uname -s)"
     source ~/.bashrc.$(uname -s)
 fi
@@ -100,6 +100,10 @@ then
         RH="$GREEN"
         export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
     fi
+    export PS_GIT=${PS1}
+    export PS_A="${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
+    export PS_B="\$(printGitBranchForPS1IfAvail)\u@\h:\W\n\\$> "
+
     logPrint "Finished processing ${GREEN}.bashrc$DEFAULT for user $USER (HOME=$HOME)"
     uptime
 fi
