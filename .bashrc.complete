@@ -463,7 +463,7 @@ _set_default_completion() {
 _complete_alias() {
     ##  get command;
     local cmd="${COMP_WORDS[0]}"
-
+    debug()
     ##  we expand aliases only for the original command line (ie: the command
     ##  line after which user pressed `<tab>`); this means we expand aliases
     ##  only in the outmost call of this function; we ensure this by using a
@@ -527,9 +527,11 @@ _complete_alias() {
 #complete -F _complete_alias myalias2
 #complete -F _complete_alias myalias3
 
-for i in $(alias | perl -pe 's#alias ##' | cut -d "=" -f1 | grep "^[a-aA-Z]")
-do
-    complete -F _complete_alias $i
-done
-
+if ! isBsd
+then
+    for i in $(alias | perl -pe 's#alias ##' | cut -d "=" -f1 | grep "^[a-aA-Z]")
+    do
+        complete -F _complete_alias $i
+    done
+fi
 complete -A function is
