@@ -463,7 +463,6 @@ _set_default_completion() {
 _complete_alias() {
     ##  get command;
     local cmd="${COMP_WORDS[0]}"
-    debug()
     ##  we expand aliases only for the original command line (ie: the command
     ##  line after which user pressed `<tab>`); this means we expand aliases
     ##  only in the outmost call of this function; we ensure this by using a
