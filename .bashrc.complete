@@ -2,6 +2,7 @@
 
 ##  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ##  automagical shell alias completion;
+##  https://raw.githubusercontent.com/cykerway/complete-alias/master/complete_alias
 ##  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ##  ============================================================================
@@ -531,3 +532,4 @@ do
     complete -F _complete_alias $i
 done
 
+complete -A function is

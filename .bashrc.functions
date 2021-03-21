@@ -26,6 +26,20 @@ function ps1Git()
     fi
 }
 
+function gPush()
+{
+    if [[ $1 =~ -all ]]
+    then
+        git add .
+        shift
+    else
+        git add -u
+    fi
+
+    git commit -m "$*"
+    git push
+}
+
 function pf-sniff()
 {
     DASH_N=${NO_DNS:--n}

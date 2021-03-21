@@ -65,7 +65,7 @@ alias show_route="netstat -rn"
 # BSD Stuff ###TQ-TODO: Move to other branch
 #
 ###
-if which dtpstree >/dev/null
+if which dtpstree >/dev/null 2>&1
 then
     alias pstree=dtpstree
 fi
