@@ -388,8 +388,10 @@ function log_bash_persistent_history()
         return
     fi
 
-    if [ "$command_part" != "$PERSISTENT_HISTORY_LAST" ]; then
-        echo $date_part "|" "$command_part" >> ~/.persistent_history.$year_part;
+    if [ "$command_part" != "$PERSISTENT_HISTORY_LAST" ]
+    then
+        LINE="$date_part | $command_part"
+        echo $LINE >> ~/.persistent_history.$year_part;
         export PERSISTENT_HISTORY_LAST="$command_part";
     else
         if [ "$HIST_DEBUG" != "" ]; then
