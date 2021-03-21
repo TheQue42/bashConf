@@ -3,14 +3,7 @@
 #
 
 DEFAULT="\e[0m";
-BOLD="\e[1m";
-UNBOLD="\e[22m";
-NOTBOLD="\e[22m";
-RED="\e[31m";
 GREEN="\e[32m";
-YELLOW="\e[33m";
-BLUE="\e[34m";
-PINK="\e[35m";
 CYAN="\e[36m";
 
 function isInteractiveShell()

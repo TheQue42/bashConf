@@ -203,6 +203,7 @@ function colstrip()
 function cecho()
 {
     DEFAULT="\e[0m";
+    RST="$DEFAULT"
     BOLD="\e[1m";
     BLACK="\e[30m";
     NOTBOLD="\e[22m";
@@ -298,7 +299,7 @@ function printGitBranchForPS1IfAvail
     fi
     if ! [ -z $GIT_BRANCH ]
     then
-        echo -e $BOLD[${UNBOLD}${BLACK}git:$BLUE${GIT_BRANCH}$BLACK$BOLD]$UNBOLD
+        echo -e $BOLD[${UNBOLD}${BLACK}git:$BLINK$BLUE${GIT_BRANCH}$RST$BLACK$BOLD]$UNBOLD
     else
         echo -e $DEFAULT # TODO: CHeck if it messess upp screen-positions...
     fi
