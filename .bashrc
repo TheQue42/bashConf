@@ -96,12 +96,11 @@ then
     then
         RH="$RED"
         #export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$>${DEFAULT} "
-        export PS1="\$(printGitBranchForPS1IfAvail)\u@\h:$RH$BOLD\W$RST\n\\$> "
-        #export PS1="\$(printGitBranchForPS1IfAvail)\u@\h:\W\n$RH$BOLD\\$>$RST\n"
+        export PS1="\$(printGitBranchForPS1IfAvail)\u@\h:\W\n$RH$BOLD\\$>$RST\n"
     else
         RH="$GREEN"
         #export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$>${DEFAULT} "
-        export PS1="\$(printGitBranchForPS1IfAvail)\u@\h:$RH$BOLD\W$RST\n\\$> "
+        export PS1="\$(printGitBranchForPS1IfAvail)\u@\h:\W\n$RH$BOLD\\$>$RST\n"        
     fi
     export PS_GIT=${PS1}
     export PS_A="${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
