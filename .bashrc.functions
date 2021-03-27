@@ -81,7 +81,7 @@ function pf-rules()
     fi
 
 }
-export -f pf-rules
+export -f pf-rules 
 
 function isSuse()
 {
@@ -176,7 +176,27 @@ function rl()
   fi
 }
 
-export -f rl
+function dl()
+{
+  if ! isBsd
+  then
+      if [[ "$1" = [0-9]+ ]]
+      then
+        echo "Last $1 lines..."
+        LAST="-n $1"
+        shift
+      fi
+      journalctl $LAST $*
+  elif [[ $1 =~ -f ]]
+  then
+      shift
+      tail -f /var/log/daemon
+  else
+    cat /var/log/daemon
+  fi
+}
+
+export -f rl dl
 
 function eeh()
 {
@@ -298,7 +318,7 @@ function cecho()
     fi
 }
 declare -fx cecho
-
+export -f cecho
 
 
 ###
@@ -585,7 +605,7 @@ function dDump()
        docker ps --all --format $TABLE
    fi
 }
-
+export -f dDump
 
 function cdLL()
 {

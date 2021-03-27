@@ -8,13 +8,13 @@ CYAN="\e[36m";
 
 function isInteractiveShell()
 {
+  # Main purpose/usage is inside functions, or during .bashrc processing(often via logPrint)
   if [[ $- =~ i ]]
   then
       return 0
   else
       return -1
   fi
-  
 }
 
 function logPrint()
