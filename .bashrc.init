@@ -35,7 +35,18 @@ function isBsd()
   uname -a | egrep -iq bsd 
 }
 
-export -f logPrint isBsd isSuse isInteractiveShell
+function addToPath()
+{
+  if [[ $PATH =~ $1 ]]
+  then
+        logPrint "PATH already contains $1"
+  else
+        export PATH="$1:$PATH"
+        logPrint "Adding $1 to PATH"
+  fi
+}
+
+export -f logPrint isBsd isSuse isInteractiveShell addToPath
 
 logPrint "${GREEN}Read bashrc.init$DEFAULT"
 

@@ -34,14 +34,12 @@ export PATH="~/bin/:$PATH"
 
 if [ -d ~/bin/$(hostname -s) ]
 then
-    logPrint "Adding ~/bin/$(hostname -s) to PATH"
-    export PATH="~/bin/$(hostname -s):$PATH"
+    addToPath "~/bin/$(hostname -s)"
 fi
 
 if [ -d ~/bin/$(uname -s) ]
 then
-    logPrint "Adding ~/bin/$(uname -s) to PATH"
-    export PATH="~/bin/$(uname -s):$PATH"
+    addToPath "~/bin/$(uname -s)"
 fi
 
 if isInteractiveShell
