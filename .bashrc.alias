@@ -87,7 +87,6 @@ alias vla="virsh list --all"
 alias vc="virsh console"
 alias vdump="virsh dumpxml"
 alias vDD="virsh destroy"
-alias virsh="/root/bin/virsh.sh" ##TODO:Functions
 alias qi=qemu-img
 alias c="/root/bin/qssh.sh"
 
