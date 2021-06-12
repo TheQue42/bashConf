@@ -29,8 +29,7 @@ then
     source ~/.bashrc.$(uname -s)
 fi
 
-#Add home/bin/ to path. (This will add incrementally...?)
-export PATH="~/bin/:$PATH"
+addToPath "~/bin"
 
 if [ -d ~/bin/$(hostname -s) ]
 then

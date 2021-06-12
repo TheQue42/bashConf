@@ -661,7 +661,7 @@ LoopPfLogs ()
         FILE=$(ls -l $i | perl -pe "s#.*$MONTH#$MONTH#")
         cecho "Reading $FILE" >&2
         sleep 0.1
-        continue
+        # continue
         if [[ $i =~ pf.*gz ]]
         then
             zcat $i | tcpdump -netttr - $*;
