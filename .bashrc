@@ -30,7 +30,6 @@ then
 fi
 
 BASH_PASS="$HOME/.bashrc.passwords"
-ls -l $BASH_PASS
 if [ -f $BASH_PASS ]
 then
     chmod 600 $BASH_PASS
@@ -65,7 +64,8 @@ then
     __git_complete gco _git_checkout
     __git_complete gb _git_branch
 
-    if [ -z "$SSH_AGENT_PID" ]
+    # If you want to disable ssh-agent startup, just set SSH_AGENT_PID to anything, in .bashrc.env or .bashrc.<hostname>
+    if [ -z "$SSH_AGENT_PID" ] 
     then
         #MY_SSH_KEY="~/.ssh/taisto.pem"
         AGENT_PID=`pgrep -u $USER ssh-agent`
@@ -91,7 +91,7 @@ then
                 logPrint "Reading saved ssh-agent info from $AGENT_INFO_FILE"
                 eval $INFO >/dev/null
             fi
-            echo "SSH_AGENT_PID: $SSH_AGENT_PID"
+            echo -e "SSH_AGENT_PID: $SSH_AGENT_PID\n"
         fi
     else
         logPrint "Skipping ssh agent startup. SSH_AGENT_PID: $SSH_AGENT_PID"
