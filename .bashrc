@@ -29,6 +29,14 @@ then
     source ~/.bashrc.$(uname -s)
 fi
 
+BASH_PASS="~/.bashrc.passwords"
+if [ -s $BASH_PASS ]
+then
+    chmod 700 $BASH_PASS
+    logPrint "Sourcing $BASH_PASS"
+    source $BASH_PASS
+fi
+
 addToPath "~/bin"
 
 if [ -d ~/bin/$(hostname -s) ]
