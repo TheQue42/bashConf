@@ -29,11 +29,12 @@ then
     source ~/.bashrc.$(uname -s)
 fi
 
-BASH_PASS="~/.bashrc.passwords"
-if [ -s $BASH_PASS ]
+BASH_PASS="$HOME/.bashrc.passwords"
+ls -l $BASH_PASS
+if [ -f $BASH_PASS ]
 then
-    chmod 700 $BASH_PASS
-    logPrint "Sourcing $BASH_PASS"
+    chmod 600 $BASH_PASS
+    logPrint $BOLD$RED"Sourcing $BASH_PASS"
     source $BASH_PASS
 fi
 
