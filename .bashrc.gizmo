@@ -1,0 +1,10 @@
+#
+# .bashrc.vimes.
+#
+
+logPrint "Processing ~/.bashrc.$(hostname -s)"
+
+export SSH_AGENT_PID="DISABLE"
+
+alias zzz="apt-get upgrade && apt-get update"
+
