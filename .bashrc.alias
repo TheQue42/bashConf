@@ -93,3 +93,4 @@ alias c="/root/bin/qssh.sh"
 
 
 
+alias gau="git add -u"

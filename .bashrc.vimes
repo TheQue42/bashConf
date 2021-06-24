@@ -14,6 +14,8 @@ export HAG="$HA/groups.yaml"
 export OZLOG=/var/lib/ha/OZW_Log.txt
 export MOTION_IN=/var/lib/unifi-video/logs/motion.log; export MOTION_OUT=/var/lib/ha/camera_motion.log
 
+export SSH_AGENT_PID="DISABLE"
+
 alias eec="ee $HA/configuration.yaml"
 alias eea="ee $HA/automations.yaml"
 alias zzz="zypper lu"
