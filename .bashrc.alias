@@ -13,14 +13,14 @@ alias ls="ls -aF"
 alias cd..='cd ..'
 alias md='mkdir -p'
 
+
 #
-###
+### Misc
 #
 alias hh=history
 alias rrc='source ~/.bashrc'
 alias grep='egrep -i --color=auto'
 alias psg="pgrep -fl"
-#alias tf="tail -f "
 alias wshark="wireshark --disable-protocol upld"
 alias kd3=kdiff3
 alias ftail="docker logs -f frigate"
