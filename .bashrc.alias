@@ -25,6 +25,7 @@ alias wshark="wireshark --disable-protocol upld"
 alias kd3=kdiff3
 alias ftail="docker logs -f frigate"
 
+
 #
 ## git stuff
 #

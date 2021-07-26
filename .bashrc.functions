@@ -668,3 +668,15 @@ LoopPfLogs ()
 }
 export -f LoopPfLogs
 
+function ZZZ()
+{
+    ZLIST=$(zypper -t lu  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
+    if [ -z $ZLIST ]
+    then
+        cecho -bold green "No updates"
+        return
+    fi
+    echo "ZLIST = $ZLIST"
+    cecho -bold "To update, run:\n zypper up $ZLIST"
+}
+
