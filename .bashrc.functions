@@ -670,13 +670,14 @@ export -f LoopPfLogs
 
 function ZZZ()
 {
-    ZLIST=$(zypper -t lu  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
-    if [ -z $ZLIST ]
+    ZUPP=$(zypper -t lu  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
+    if [ -z "$ZUPP" ]
     then
         cecho -bold green "No updates"
         return
     fi
+    ZLIST="$(echo $ZUPP)"
     echo "ZLIST = $ZLIST"
-    cecho -bold "To update, run:\n zypper up $ZLIST"
+    cecho -bold "To update, run:\n zypper up -y --auto-agree-with-licenses --auto-agree-with-product-licenses --allow-vendor-change $ZLIST"
 }
 
