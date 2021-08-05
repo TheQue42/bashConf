@@ -673,7 +673,7 @@ function ZZZ()
     if ! isSuse
     then
 	cecho -bold red "This aint Suse, so you need to run something else for updates"
-	exit 1
+	return
     fi
     
     ZUPP=$(zypper -t lu  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
