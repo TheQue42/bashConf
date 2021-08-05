@@ -138,17 +138,6 @@ function tf()
     fi
 }
 
-function dl()
-{
-  if ! isBsd
-  then
-      journalctl $* | egrep "error|warn|daemon"
-  else
-      cat /var/log/daemon
-  fi
-}
-export -f dl
-
 function pl()
 {
   if ! isBsd
@@ -166,6 +155,7 @@ function pl()
 }
 export -f pl
 
+
 function rl()
 {
   if ! isBsd
@@ -173,14 +163,19 @@ function rl()
       if [[ "$1" = [0-9]+ ]]
       then
         echo "Last $1 lines..."
-        LAST=$1
+        LAST="-n $1"
         shift
       fi
-      journalctl -n $LAST $*
+      journalctl $LAST $*
+  elif [[ $1 =~ -f ]]
+  then
+      shift
+      tail -f /var/log/messages
   else
-    cat /var/log/daemon
+    cat /var/log/messages
   fi
 }
+
 
 function dl()
 {
@@ -661,7 +656,7 @@ LoopPfLogs ()
         FILE=$(ls -l $i | perl -pe "s#.*$MONTH#$MONTH#")
         cecho "Reading $FILE" >&2
         sleep 0.1
-        continue
+        # continue
         if [[ $i =~ pf.*gz ]]
         then
             zcat $i | tcpdump -netttr - $*;
@@ -672,4 +667,16 @@ LoopPfLogs ()
 
 }
 export -f LoopPfLogs
+
+function ZZZ()
+{
+    ZLIST=$(zypper -t lu  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
+    if [ -z $ZLIST ]
+    then
+        cecho -bold green "No updates"
+        return
+    fi
+    echo "ZLIST = $ZLIST"
+    cecho -bold "To update, run:\n zypper up $ZLIST"
+}
 
