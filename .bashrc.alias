@@ -95,3 +95,4 @@ alias c="/root/bin/qssh.sh"
 
 
 alias gau="git add -u"
+alias btlogs='docker logs -f room-assistant'
