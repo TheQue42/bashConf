@@ -89,6 +89,23 @@ function pf-rules()
 }
 export -f pf-rules 
 
+function qgrep()
+{
+    FILTER=""
+    if [ -z $1 ]
+    then
+        cecho red "grep for WHAT?"
+    else
+        for i in $*
+        do
+            FILTER="egrep $i|$FILTER"
+        done
+        GREP_FILTER=${FILTER%|}
+        cecho cyan "Will eval: [pfctl -vv -s r | $GREP_FILTER]"
+        eval "$GREP_FILTER"
+    fi
+}
+
 function isSuse()
 {
     if [ -s /etc/os-release ]

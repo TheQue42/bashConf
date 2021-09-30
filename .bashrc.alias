@@ -24,7 +24,7 @@ alias psg="pgrep -fl"
 alias wshark="wireshark --disable-protocol upld"
 alias kd3=kdiff3
 alias ftail="docker logs -f frigate"
-
+alias wg='grep "warn|error"'
 
 #
 ## git stuff
@@ -79,6 +79,7 @@ alias rlist="pfctl -vv -s r | grep ^@"
 alias eep="emacs /etc/pf.conf"
 alias eed="emacs /etc/dhcpd.conf"
 alias eem="emacs /etc/pf.macros.conf"
+alias eea="emacs /etc/postfix/aliases"
 
 alias pg_report="postgreyreport --user _postgrey --dbdir /var/db/postgrey/ --show_tries --show_time" #TQ-TODO
 

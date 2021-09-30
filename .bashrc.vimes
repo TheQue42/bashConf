@@ -19,6 +19,7 @@ export REPOS=/root/repos
 
 alias eec="ee $HA/configuration.yaml"
 alias eea="ee $HA/automations.yaml"
+alias ees="ee $HA/scripts.yaml"
 alias zzz="zypper lu"
 alias zupp="zypper up -y"
 alias tff="tail -F $HAL"
