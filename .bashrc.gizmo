@@ -6,3 +6,5 @@ logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 alias zzz="apt-get upgrade && apt-get update"
 
+export ZWJS="/var/lib/zwave/"
+export LANG=POSIX
