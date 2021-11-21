@@ -13,8 +13,6 @@ export HAG="$HA/groups.yaml"
 
 export MOTION_IN=/var/lib/unifi-video/logs/motion.log; export MOTION_OUT=/var/lib/ha/camera_motion.log
 
-export NODE_CONTAINER_DIRS="unifi-network unifi-video ha portainer mongo mqtt frigate maria influx"
-
 export SSH_AGENT_PID="DISABLE"
 
 export REPOS=/root/repos
@@ -23,6 +21,5 @@ alias eec="ee $HA/configuration.yaml"
 alias eea="ee $HA/automations.yaml"
 alias ees="ee $HA/scripts.yaml"
 alias zz="zypper"
-alias zupp="zypper up -y"
 alias tff="tail -F $HAL"
 
