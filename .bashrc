@@ -37,16 +37,16 @@ then
     source $BASH_PASS
 fi
 
-addToPath "~/bin"
+addToPath ~/bin
 
 if [ -d ~/bin/$(hostname -s) ]
 then
-    addToPath "~/bin/$(hostname -s)"
+    addToPath ~/bin/$(hostname -s)
 fi
 
 if [ -d ~/bin/$(uname -s) ]
 then
-    addToPath "~/bin/$(uname -s)"
+    addToPath ~/bin/$(uname -s)
 fi
 
 if isInteractiveShell

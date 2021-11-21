@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # .bashrc.init
 #
@@ -37,13 +38,26 @@ function isBsd()
 
 function addToPath()
 {
-  if [[ $PATH =~ $1 ]]
-  then
-        logPrint "PATH already contains $1"
-  else
-        export PATH="$1:$PATH"
-        logPrint "Adding $1 to PATH"
-  fi
+    DST=$(realpath -e $1)
+    if [ $? -ne 0 ]
+    then
+        echo "Not a valid dir: $1"
+        return
+    fi
+    if [[ $PATH =~ $DST ]]
+    then
+        logPrint "PATH already contains $1 (as $DST)"
+    else
+        if [ -L "$1" ]
+        then
+            WHERE="end"
+            export PATH="$PATH:$DST"
+        else
+            WHERE="beginning"
+            export PATH="$DST:$PATH"
+        fi
+        logPrint "Adding $1 to $BOLD$WHERE$UNBOLD of PATH"
+    fi
 }
 
 export -f logPrint isBsd isSuse isInteractiveShell addToPath
