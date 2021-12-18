@@ -692,7 +692,7 @@ function ZZZ()
 	cecho -bold red "This aint Suse, so you need to run something else for updates"
 	return
     fi
-    
+
     ZUPP=$(zypper -t lu  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
     if [ -z "$ZUPP" ]
     then
@@ -702,5 +702,27 @@ function ZZZ()
     ZLIST="$(echo $ZUPP)"
     echo "ZLIST = $ZLIST"
     cecho -bold "To update, run:\n zypper up -y --auto-agree-with-licenses --auto-agree-with-product-licenses --allow-vendor-change $ZLIST"
+}
+
+function pCat()
+{
+    if [ -z "$1" ]
+    then
+        cecho -bold red "PathCat Which File??"
+        exit 1
+    fi
+    if [ "$1" == "-m" -o "$2" == "-m" ]
+    then
+        cecho "Using more..."
+        CAT_OR_MORE="more"
+        if [ "$1" == "-m" ]
+        then
+            shift
+        fi
+    fi
+
+    PATH_TO_SCRIPT=$(which $1)
+    cecho blue "File $1 was found at: [$BOLD$PATH_TO_SCRIPT$UNBOLD]"
+    ${CAT_OR_MORE:-cat} $PATH_TO_SCRIPT
 }
 
