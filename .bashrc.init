@@ -38,7 +38,7 @@ function isBsd()
 
 function addToPath()
 {
-    DST=$(realpath -e $1)
+    DST=$(readlink -fn $1)
     if [ $? -ne 0 ]
     then
         echo "Not a valid dir: $1"
