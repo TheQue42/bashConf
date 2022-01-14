@@ -590,7 +590,7 @@ function dll()
     done;
     if [ -z $FOUND ]; then
         echo "Container matching [$FILTER] NOT found";
-        docker ps --all --format  $TABLE
+        docker ps --all --format "table {{.ID}}\t{{.Names}}\t{{.Status}"
     fi
 }
 
@@ -689,14 +689,23 @@ function ZZZ()
 {
     if ! isSuse
     then
-	cecho -bold red "This aint Suse, so you need to run something else for updates"
+	cecho -bold red "This aint Suse, so you need to run something else for updates:"
+        cecho -green "Maybe: [apt-get update && apt-get upgrade]"
 	return
     fi
-
-    ZUPP=$(zypper -t lu  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
+    zypper -t lu >/tmp/zypper.out
+    ZUPP=$(cat /tmp/zypper.out  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
     if [ -z "$ZUPP" ]
     then
-        cecho -bold green "No updates"
+        if grep -q "No updates found" /tmp/zypper.out
+        then
+            cecho -bold green "No updates"
+        else
+            cecho "Mainly kernel updates..."
+            cecho -----------------
+            cat /tmp/zypper.out
+            cecho -----------------
+        fi
         return
     fi
     ZLIST="$(echo $ZUPP)"

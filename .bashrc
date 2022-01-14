@@ -65,7 +65,7 @@ then
     __git_complete gb _git_branch
 
     # If you want to disable ssh-agent startup, just set SSH_AGENT_PID to anything, in .bashrc.env or .bashrc.<hostname>
-    if [ -z "$SSH_AGENT_PID" ] 
+    if [ -z "$SSH_AGENT_PID" ]
     then
         #MY_SSH_KEY="~/.ssh/taisto.pem"
         AGENT_PID=`pgrep -u $USER ssh-agent`
@@ -86,7 +86,11 @@ then
             INFO=`cat $AGENT_INFO_FILE`
             if [ -z "$INFO" ]
             then
-                logPrint "Why havent we got accurate ssh_agent info? $(pgrep -u $USER ssh-agent) AGENT_PID=$AGENT_PID"
+                logPrint "Why havent we got accurate ssh_agent info? "
+                #$(pgrep -u $USER ssh-agent) AGENT_PID=$"
+                logPrint "It seems to be running on PID: $AGENT_PID"
+                pgrep -la -u $USER ssh-agent
+                cecho -bold blue "pkill -e -u \$USER ssh-agent"
             else
                 logPrint "Reading saved ssh-agent info from $AGENT_INFO_FILE"
                 eval $INFO >/dev/null
@@ -104,7 +108,7 @@ then
     else
         RH="$GREEN"
     fi
-    export PS1="\$(printGitBranchForPS1IfAvail)$RH$BOLD\u$RST@\h:\W\n\\$> "            
+    export PS1="\$(printGitBranchForPS1IfAvail)$RH$BOLD\u$RST@\h:\W\n\\$> "
     export PS_ORG=${PS1}
     export PS_A="\$(printGitBranchForPS1IfAvail)\u@\h:\W\\$> "
 

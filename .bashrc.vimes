@@ -23,3 +23,5 @@ alias ees="ee $HA/scripts.yaml"
 alias zz="zypper"
 alias tff="tail -F $HAL"
 
+
+export TERM=xterm-256color
