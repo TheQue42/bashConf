@@ -4,8 +4,8 @@
 
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
-export HA=/var/lib/home-assistant
-export HAL=/var/lib/home-assistant/home-assistant.log
+export HA="/pods/ha"
+export HAL="$HA/home-assistant.log"
 
 export HAC="$HA/configuration.yaml"
 export HAA="$HA/automations.yaml"
@@ -20,8 +20,8 @@ export REPOS=/root/repos
 alias eec="ee $HA/configuration.yaml"
 alias eea="ee $HA/automations.yaml"
 alias ees="ee $HA/scripts.yaml"
+
 alias zz="zypper"
 alias tff="tail -F $HAL"
-
 
 export TERM=xterm-256color
