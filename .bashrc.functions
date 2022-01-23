@@ -35,7 +35,6 @@ function gPush()
     else
         git add -u
     fi
-
     git commit -m "$*"
     git push
 }
@@ -87,7 +86,7 @@ function pf-rules()
     fi
 
 }
-export -f pf-rules 
+export -f pf-rules
 
 function qgrep()
 {
@@ -220,16 +219,15 @@ function eeh()
 {
     if [ -z "$1" ]
     then
-    emacs -nw $HA/configuration.yaml
+        emacs -nw $HA/configuration.yaml
     else
-    cecho -bold emacs -nw $HA/${1}*yaml
-    sleep 0.4
+        cecho -bold emacs -nw $HA/${1}*yaml
+        sleep 0.4
     if [[ $1 =~ auto ]]
     then
         emacs -nw $HA/auto*yaml
     else
         emacs -nw $HA/$1*yaml
-    fi
     fi
 }
 
@@ -379,13 +377,14 @@ function reMatch {
     cecho "String is: [$GREEN$1$CYAN] - Regexp: [$DEFAULT$BOLD$2$CYAN]"
     [[ $1 =~ $2 ]] # perform the regex test
     ec=$? # save exit code
-    if [[ $ec -eq 0 ]]; then # copy result to output variable
-    echo -e "1=${BASH_REMATCH[1]}, 2=${BASH_REMATCH[2]}, 3=${BASH_REMATCH[3]}, $BOLD${BLUE}ALL=$GREEN${BASH_REMATCH[@]}$DEFAULT"
-    [[ -n $BASH_VERSION ]] && reMatch=( "${BASH_REMATCH[@]}" )
-    [[ -n $KSH_VERSION ]]  && reMatch=( "${.sh.match[@]}" )
-    [[ -n $ZSH_VERSION ]]  && reMatch=( "$MATCH" "${match[@]}" )
+    if [[ $ec -eq 0 ]]
+    then # copy result to output variable
+        echo -e "1=${BASH_REMATCH[1]}, 2=${BASH_REMATCH[2]}, 3=${BASH_REMATCH[3]}, $BOLD${BLUE}ALL=$GREEN${BASH_REMATCH[@]}$DEFAULT"
+        [[ -n $BASH_VERSION ]] && reMatch=( "${BASH_REMATCH[@]}" )
+        [[ -n $KSH_VERSION ]]  && reMatch=( "${.sh.match[@]}" )
+        [[ -n $ZSH_VERSION ]]  && reMatch=( "$MATCH" "${match[@]}" )
     else
-    echo NoMatch 1>&2
+        echo NoMatch 1>&2
     fi
     return $ec
 }
@@ -568,7 +567,7 @@ function dshell()
 
 function dll()
 {
-    local TABLE="table {{.ID}}\t{{.Names}}\t{{.Status}"
+    local TABLE="table {{.ID}}\t{{.Names}}\t{{.Status}}"
     if [ -z $1 ]; then
         echo "Which container?";
         dps
@@ -590,7 +589,7 @@ function dll()
     done;
     if [ -z $FOUND ]; then
         echo "Container matching [$FILTER] NOT found";
-        docker ps --all --format "table {{.ID}}\t{{.Names}}\t{{.Status}"
+        docker ps --all --format "$TABLE"
     fi
 }
 
@@ -620,7 +619,7 @@ function dDump()
    if [ -z $FOUND ]
    then
        echo "Container($1) NOT found"
-       docker ps --all --format $TABLE
+       docker ps --all --format "$TABLE"
    fi
 }
 export -f dDump
@@ -689,9 +688,9 @@ function ZZZ()
 {
     if ! isSuse
     then
-	cecho -bold red "This aint Suse, so you need to run something else for updates:"
+        cecho -bold red "This aint Suse, so you need to run something else for updates:"
         cecho -green "Maybe: [apt-get update && apt-get upgrade]"
-	return
+    return
     fi
     zypper -t lu >/tmp/zypper.out
     ZUPP=$(cat /tmp/zypper.out  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
