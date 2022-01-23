@@ -734,4 +734,6 @@ function pCat()
     cecho blue "File $1 was found at: [$BOLD$PATH_TO_SCRIPT$UNBOLD]"
     ${CAT_OR_MORE:-cat} $PATH_TO_SCRIPT
 }
+complete -c pCat
+export -f pCat
 
