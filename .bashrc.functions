@@ -221,8 +221,10 @@ function eeh()
     then
         emacs -nw $HA/configuration.yaml
     else
-        cecho -bold emacs -nw $HA/${1}*yaml
+        cecho -bold "emacs -nw $HA/${1}*yaml"
         sleep 0.4
+    fi
+
     if [[ $1 =~ auto ]]
     then
         emacs -nw $HA/auto*yaml
