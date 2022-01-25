@@ -220,6 +220,7 @@ function eeh()
     if [ -z "$1" ]
     then
         emacs -nw $HA/configuration.yaml
+	return
     else
         cecho -bold "emacs -nw $HA/${1}*yaml"
         sleep 0.4
@@ -700,7 +701,7 @@ function ZZZ()
     then
         if grep -q "No updates found" /tmp/zypper.out
         then
-            cecho -bold green "No updates"
+            cecho -bold green "No updates (at all)"
         else
             cecho "Mainly kernel updates..."
             cecho -----------------
