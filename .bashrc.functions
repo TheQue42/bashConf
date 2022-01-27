@@ -289,35 +289,35 @@ function cecho()
     else
         SET_BOLD=$NOTBOLD;
     fi
-    if [[ $1 =~ red ]]; then
+    if [[ $1 =~ ^red$ ]]; then
         COLOR=$RED;
         shift;
     else
-        if [[ $1 =~ green ]]; then
+        if [[ $1 =~ ^green$ ]]; then
             COLOR=$GREEN;
             shift;
         else
-            if [[ $1 =~ yellow ]]; then
+            if [[ $1 =~ ^yellow$ ]]; then
                 COLOR=$YELLOW;
                 shift;
             else
-                if [[ $1 =~ blue ]]; then
+                if [[ $1 =~ ^blue$ ]]; then
                     COLOR=$BLUE;
                     shift;
                 else
-                    if [[ $1 =~ white ]]; then
+                    if [[ $1 =~ ^white$ ]]; then
                         COLOR=$WHITE;
                         shift;
                     else
-                        if [[ $1 =~ pink ]]; then
+                        if [[ $1 =~ ^pink$ ]]; then
                             COLOR=$PINK;
                             shift;
                         else
-                            if [[ $1 =~ cyan ]]; then
+                            if [[ $1 =~ ^cyan$ ]]; then
                                 COLOR=$CYAN;
                                 shift;
                             else
-                                if [[ $1 =~ black ]]; then
+                                if [[ $1 =~ ^black$ ]]; then
                                     COLOR=$BLACK;
                                     shift;
                                 else
