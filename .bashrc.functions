@@ -258,8 +258,9 @@ function cecho()
     DEFAULT="\e[0m";
     RST="$DEFAULT"
     BOLD="\e[1m";
-    BLACK="\e[30m";
     NOTBOLD="\e[22m";
+    UNBOLD="\e[22m";
+    BLACK="\e[30m";
     RED="\e[31m";
     GREEN="\e[32m";
     YELLOW="\e[33m";
@@ -735,6 +736,7 @@ function pCat()
     PATH_TO_SCRIPT=$(which $1)
     cecho blue "File $1 was found at: [$BOLD$PATH_TO_SCRIPT$UNBOLD]"
     ${CAT_OR_MORE:-cat} $PATH_TO_SCRIPT
+    cecho blue "File $1 was found at: [$BOLD$PATH_TO_SCRIPT$UNBOLD]"    
 }
 complete -c pCat
 export -f pCat
