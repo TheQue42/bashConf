@@ -17,19 +17,20 @@ else
     logPrint "Skipping missing ~/.bashrc.env"
 fi
 
-if [ -s ~/.bashrc.$(hostname -s) ]
-then
-    logPrint "Sourcing ~/.bashrc.$(hostname -s)"
-    source ~/.bashrc.$(hostname -s)
-fi
-
 if [ -s ~/.bashrc.$(uname -s) ]
 then
     logPrint "Sourcing ~/.bashrc.$(uname -s)"
     source ~/.bashrc.$(uname -s)
 fi
 
-BASH_PASS="$HOME/.bashrc.passwords"
+# Source the host-specific last, so it can override.
+if [ -s ~/.bashrc.$(hostname -s) ]
+then
+    logPrint "Sourcing ~/.bashrc.$(hostname -s)"
+    source ~/.bashrc.$(hostname -s)
+fi
+
+BASH_PASS="$HOME/.bashrc.psw"
 if [ -f $BASH_PASS ]
 then
     chmod 600 $BASH_PASS
