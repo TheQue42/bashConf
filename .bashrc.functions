@@ -69,6 +69,12 @@ function pf-sniff()
 }
 export -f pf-sniff
 
+function pf-strip()
+{
+    cat - | perl -pe "s#.*on [a-z]+[0-5]{1,2}: ##" | perl -pe 's#.[0-9]{1,5} > # > #' | perl -pe 's#\.[0-9]{1,5}:#:#' | perl -pe 's#: S.*##'
+    cecho  "tcp and 'tcp[tcpflags]=tcp-syn'"
+}
+
 function pf-rules()
 {
     FILTER=""
