@@ -124,11 +124,15 @@ export -f isBsd
 
 function is()
 {
-    if type $1 | egrep -i --color=auto -iq "function"
+    TYPE_IS=$(type $1)
+    if echo $TYPE_IS | egrep --color=auto -iq "function"
     then
         type $1;
+    elif echo $TYPE_IS | egrep -q alias
+    then
+         ali\as $1;
     else
-        ali\as $1;
+	echo $1 is $TYPE
     fi
 }
 export -f is

@@ -25,7 +25,7 @@ alias wshark="wireshark --disable-protocol upld"
 alias kd3=kdiff3
 alias ftail="docker logs -f frigate"
 alias wg='grep "warn|error"'
-
+alias dlfa="docker logs -f "
 #
 ## git stuff
 #
