@@ -8,3 +8,4 @@ alias zzz="apt-get upgrade && apt-get update"
 
 export ZWJS="/var/lib/zwave/"
 export LANG=POSIX
+export SSH_AGENT_PID="Not now"
