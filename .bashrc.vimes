@@ -23,6 +23,7 @@ alias ees="ee $HA/scripts.yaml"
 alias eef="ee $FRIGATE/config.yml"
 
 alias zz="zypper"
-alias tff="tail -F $HAL"
+alias cdhh="cd $HA"
+alias tff="tail -F $HAL | perl -pe 's#state=<.*?>#state=<>#g' | grep -v '.{800,}' "
 
 export TERM=xterm-256color
