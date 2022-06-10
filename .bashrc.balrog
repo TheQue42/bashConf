@@ -27,3 +27,5 @@ alias egrep='ggrep -Pi '
 export CHANGELOG_DST=taisto@ip-s.se
 export NSD_INT=/var/nsd/zones/int/
 export NSD_EXT=/var/nsd/zones/ext/
+
+alias wg-status='ifconfig wg | egrep "wg[01]|wgpeer|wgendp|handsh|tx:"'
