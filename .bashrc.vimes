@@ -4,6 +4,9 @@
 
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
+export PODS=/pods
+export POD_BASE=/pods
+
 export HA="/pods/ha"
 export HAL="$HA/home-assistant.log"
 

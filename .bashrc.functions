@@ -293,7 +293,7 @@ function cecho()
     return
     fi
 
-    if [[ $1 =~ bold ]]
+    if [[ $1 =~ ^[-]*bold$ ]]
     then
         SET_BOLD=$BOLD;
         shift;
