@@ -6,6 +6,7 @@ logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 alias zzz="apt-get upgrade && apt-get update"
 
-export ZWJS="/var/lib/zwave/"
+export ZWJS="/var/lib/zwave"
 export LANG=POSIX
 export SSH_AGENT_PID="Not now"
+export ZIGBEE="/var/lib/zigbee2mqtt"
