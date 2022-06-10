@@ -1,15 +1,12 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
-CVSROOT=anoncvs@anoncvs.eu.openbsd.org:/cvs
-CVS_RSH=/usr/bin/ssh
-TERM=vt220
-export SSH_AGENT_PID="DISABLE"
+export CVSROOT=anoncvs@anoncvs.eu.openbsd.org:/cvs
+export CVS_RSH=/usr/bin/ssh
 
-export CVS_RSH CVSROOT PS1 TERM
 ulimit -c 0
 umask 022
 
-###TQ-TODO: Do we need this in .bashrc.init as well?
+### TQ-TODO: Do we need this in .bashrc.init as well?
 
 case "$-" in
 *i*)    # interactive shell
@@ -24,8 +21,12 @@ case "$-" in
 esac
 
 alias egrep='ggrep -Pi '
+alias psg="pgrep -fl"
 export CHANGELOG_DST=taisto@ip-s.se
 export NSD_INT=/var/nsd/zones/int/
 export NSD_EXT=/var/nsd/zones/ext/
+export TERM=xterm-256color
+export SSH_AGENT_PID="DISABLE"
+export PY39=/root/py39
 
 alias wg-status='ifconfig wg | egrep "wg[01]|wgpeer|wgendp|handsh|tx:"'

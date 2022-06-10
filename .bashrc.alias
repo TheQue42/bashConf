@@ -20,8 +20,7 @@ alias md='mkdir -p'
 alias hh=history
 alias rrc='source ~/.bashrc'
 alias grep='egrep -i --color=auto'
-alias psg="pgrep -fa"
-alias wshark="wireshark --disable-protocol upld"
+# psg moved to .bashrc.<hostname> since it differs on BSD
 alias kd3=kdiff3
 alias ftail="docker logs -f frigate 2>&1"
 alias wg='grep "warn|error"'

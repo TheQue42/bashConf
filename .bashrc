@@ -30,7 +30,7 @@ then
     source ~/.bashrc.$(hostname -s)
 fi
 
-BASH_PASS="$HOME/.bashrc.psw"
+BASH_PASS="$HOME/.bashrc_private"
 if [ -f $BASH_PASS ]
 then
     chmod 600 $BASH_PASS
