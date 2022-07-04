@@ -261,7 +261,7 @@ function colstrip()
 {
     perl -ane "print \$F[$1] . \"\n\""
 }
-
+export -f colstrip
 
 function cecho()
 {
