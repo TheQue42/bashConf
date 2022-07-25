@@ -5,7 +5,6 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 export PODS=/pods
-export POD_BASE=/pods
 
 export HA="/pods/ha"
 export HAL="$HA/home-assistant.log"
@@ -14,7 +13,13 @@ export HAC="$HA/configuration.yaml"
 export HAA="$HA/automations.yaml"
 export HAG="$HA/groups.yaml"
 
-export MOTION_IN=/var/lib/unifi-video/logs/motion.log; export MOTION_OUT=/var/lib/ha/camera_motion.log
+export FRIGATE="$PODS/frigate"
+export MQTT="$PODS/mqtt"
+export ROOM_ASSISTANT=\$PODS/room-assistant/
+
+## Not used anymore
+#export MOTION_IN=/var/lib/unifi-video/logs/motion.log;
+#export MOTION_OUT=/var/lib/ha/camera_motion.log
 
 export SSH_AGENT_PID="DISABLE"
 
@@ -27,7 +32,8 @@ alias eef="ee $FRIGATE/config.yml"
 
 alias zz="zypper"
 alias cdhh="cd $HA"
+
+#gr\ep -v "[matplotlib] loaded modules"
 alias tff="tail -F $HAL | perl -pe 's#state=<.*?>#state=<>#g' | grep -v '.{800,}' "
 
-export TERM=xterm-256color
-
+alias tfh="tail -F $HAL | grep -v '.{800,}' "
