@@ -13,7 +13,6 @@ alias ls="ls -aF"
 alias cd..='cd ..'
 alias md='mkdir -p'
 
-
 #
 ### Misc
 #

@@ -32,6 +32,7 @@ alias eef="ee $FRIGATE/config.yml"
 
 alias zz="zypper"
 alias cdhh="cd $HA"
+alias halt="Halta"
 
 #gr\ep -v "[matplotlib] loaded modules"
 alias tff="tail -F $HAL | perl -pe 's#state=<.*?>#state=<>#g' | grep -v '.{800,}' "
