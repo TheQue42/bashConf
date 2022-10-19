@@ -65,6 +65,12 @@ then
     __git_complete gco _git_checkout
     __git_complete gb _git_branch
 
+    if [ -s ~/.bashrc.$(hostname -s) ]
+    then
+	logPrint "ReSourcing ~/.bashrc.$(hostname -s) to ensure local aliases are overridden."
+	source ~/.bashrc.$(hostname -s)
+    fi
+    
     # If you want to disable ssh-agent startup, just set SSH_AGENT_PID to anything, in .bashrc.env or .bashrc.<hostname>
     if [ -z "$SSH_AGENT_PID" ]
     then
