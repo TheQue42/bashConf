@@ -1,5 +1,5 @@
 #
-# .bashrc.vimes.
+# .bashrc.$(hostname -s)
 #
 
 logPrint "Processing ~/.bashrc.$(hostname -s)"
