@@ -137,7 +137,7 @@ function is()
     elif echo $TYPE_IS | egrep -q alias
     then
          ali\as $1;
-    elif echo $TYPE_IS | egrep -q hashed
+    elif which $1 >/dev/null
     then
          which $1
     else
