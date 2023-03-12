@@ -22,7 +22,7 @@ alias grep='egrep -i --color=auto'
 # psg moved to .bashrc.<hostname> since it differs on BSD
 alias kd3=kdiff3
 alias ftail="docker logs -f frigate 2>&1"
-alias wg='egrep -i "(warn|error)"'
+alias wg='egrep -i "(warn|error|fail)"'
 alias dlfa="docker logs -f airthings"
 
 #
