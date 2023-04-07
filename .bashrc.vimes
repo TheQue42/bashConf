@@ -35,6 +35,6 @@ alias cdhh="cd $HA"
 alias halt="Halta"
 
 #gr\ep -v "[matplotlib] loaded modules"
-alias tff="tail -F $HAL | perl -pe 's#state=<.*?>#state=<>#g' | grep -v '.{800,}' "
+alias tff="tail -F $HAL | perl -pe 's#state=<.*?>#state=<>#g' | grep --line-buffered -v '.{800,}' "
 
-alias tfh="tail -F $HAL | grep -v '.{800,}' "
+alias tfh="tail -F $HAL | grep --line-buffered -v '.{800,}' "
