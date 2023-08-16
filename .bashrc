@@ -28,6 +28,8 @@ if [ -s ~/.bashrc.$(hostname -s) ]
 then
     logPrint "Sourcing ~/.bashrc.$(hostname -s)"
     source ~/.bashrc.$(hostname -s)
+else
+    logPrint $RED"Hostname-local [~/.bashrc.$(hostname -s)] ${BLACK}NOT$RED found, ${BLUE}skipping"
 fi
 
 BASH_PASS="$HOME/.bashrc_private"
