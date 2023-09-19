@@ -7,4 +7,4 @@ export NSD_INT=/var/nsd/zones/int/
 export NSD_EXT=/var/nsd/zones/ext/
 export TERM=xterm-256color
 export SSH_AGENT_PID="DISABLE"
-export PY39=/root/py39
+export PY3=/root/py39
