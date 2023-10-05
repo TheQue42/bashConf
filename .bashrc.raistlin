@@ -13,7 +13,7 @@ export GCC_THREADS="$(nproc)"
 alias zz="zypper"
 
 alias cdr="cd ~/repos/rtt-focus"
-alias cleanLogs='find . -name "*.log" -o -name "*.log.std*" -o -name failedTcLogs.txt | xargs -rt rm'
+alias cleanLogs='find . -name "*.log" -o -name "*.log.std*" -o -name failedTcLogs.txt -o -name output.xml -o -name log.xml | xargs -rt rm'
 alias eclipse="~/eclipse/eclipse"
 
 alias mm="make -j$GCC_THREADS"
