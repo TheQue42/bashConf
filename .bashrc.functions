@@ -411,13 +411,14 @@ function reMatch {
 ################################################################################
 function log_bash_persistent_history()
 {
-    local HISTTIMEFORMAT="[%Y] - %a, %d %b, %H:%M - ";
+    local HISTTIMEFORMAT="{%Y} - {%a, %d %b, %H:%M} : "
     HISTTIMEFORMAT_REQ="$HISTTIMEFORMAT"
     if [ "$HISTTIMEFORMAT" != "$HISTTIMEFORMAT_REQ" ]; then
         echo -e $RED"HISTTIMEFORMAT is not valid for log_bash_persistent_history() $HISTTIMEFORMAT != $HISTTIMEFORMAT_REQ"$DEFAULT;
         return;
     fi;
     LAST_CMD="$(history 1)"
+    # 32069  [2023] - {Sat, 21 Oct, 12:51} : is log_bash_persistent_history
 
     #NR  [YEAR] - DATE_AND_TIME - COMMAND
     #local regexp="^[0-9]{1,6}[ ]+\[[0-9]+\][ ]+-[ ]+(.*)[ ]+-[ ]+(.*)$"
@@ -425,20 +426,27 @@ function log_bash_persistent_history()
     #[[ $(history 1) =~ ^.*\[(.*?)\]\ -\ (.*?)\ -\ (.*)$ ]];
     #[[ $LAST_CMD =~ ^.*\[[0-9]+\]\ -\ (.*)\ -\ +(.*)$ ]];
     #local regexp="\s*[0-9]{1,6}\s+\[([0-9]{4,4})\]\s-\s(.*?)\s-\s(.*)"
-    local regexp="[ ]*[0-9]{1,6}[ ]+\[([0-9]{4,4})\][ ]-[ ](.*?)[ ]-[ ](.*)"
+    local regexp="[0-9]{1,6}[ ]+\[([0-9]{4,4})\] - {(.*?)}[[:blank:]]+: (.*)"
+    #     regexp="^[0-9]{1,6}[[:blank:]]+\[([0-9]{4,4})\][[:blank:]]-[[:blank:]]{(.*?)}[[:blank:]]+: (.*)"
+    # regexp="^[0-9]{1,6}[[:blank:]]+{[0-9]{4,4}}.*?{(.*?)}.*?: (.*)"
+    regexp="^[0-9]{1,6}.*{(.*)}.*{(.*)}.*: (.*)"
 
     [[ $LAST_CMD =~ $regexp ]]
-    eq=$?
+    reqexp_result=$?
     local year_part="${BASH_REMATCH[1]}";
     local date_part="${BASH_REMATCH[2]}";
     local command_part="${BASH_REMATCH[3]}";
     if [[ $command_part =~ ^cliGrep ]]; then
         return;
     fi;
-    if [ -z "$command_part" ]
+    if [ $reqexp_result -ne 0 ]
     then
-        cecho red "Failed to log_bash_persistent_history($?) cmdpart=[$1] last_cmd=[$BOLD$LAST_CMD$UNBOLD],\n year=$year_part,\n date=$date_part"
+        cecho red "Failed to log_bash_persistent_history($reqexp_result) cmdpart=[$1] last_cmd=[$BOLD$LAST_CMD$UNBOLD],\n year=$year_part,\n date=$date_part"
         cecho -bold "regexp=$regexp"
+        echo "1=${BASH_REMATCH[1]}"
+        echo "2=${BASH_REMATCH[2]}"
+        echo "3=${BASH_REMATCH[3]}"
+#        cecho ALL:${BASH_REMATCH[1]}
         return
     fi
 
