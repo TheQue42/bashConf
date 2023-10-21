@@ -5,8 +5,10 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 alias zzz="apt-get upgrade && apt-get update"
+alias docker="podman"
 
-export PODS=/var/lib/
+export DOCKER="podman"
+export PODS=/pods
 export ZWJS="/var/lib/zwave"
 export LANG=POSIX
 export SSH_AGENT_PID="Not now"
