@@ -427,11 +427,6 @@ function log_bash_persistent_history()
     # 32069  [2023] - {Sat, 21 Oct, 12:51} : is log_bash_persistent_history
 
     #NR  {YEAR} - {DATE_AND_TIME} : COMMAND
-    #local regexp="^[0-9]{1,6}[ ]+\[[0-9]+\][ ]+-[ ]+(.*)[ ]+-[ ]+(.*)$"
-    #[[ $(history 1) =~ ^[0-9]{1,6}\ \[.+\]\ -\ (.*)\ -\ +(.*)$ ]];
-    #[[ $(history 1) =~ ^.*\[(.*?)\]\ -\ (.*?)\ -\ (.*)$ ]];
-    #[[ $LAST_CMD =~ ^.*\[[0-9]+\]\ -\ (.*)\ -\ +(.*)$ ]];
-    #local regexp="\s*[0-9]{1,6}\s+\[([0-9]{4,4})\]\s-\s(.*?)\s-\s(.*)"
     #local regexp="[0-9]{1,6}[ ]+\[([0-9]{4,4})\] - {(.*?)}[[:blank:]]+: (.*)"
     local regexp=${PERSISTENT_REGEXP}
     
@@ -447,15 +442,16 @@ function log_bash_persistent_history()
     
     if [ $reqexp_result -ne 0 -o -z "$command_part" ]
     then
-        cecho red "Failed to log_bash_persistent_history($reqexp_result) cmdpart=[[$1]] last_cmd=[[$BOLD$LAST_CMD$UNBOLD]],\n year=$year_part,\n date=$date_part"
-        cecho -bold "regexp=[[$regexp]]"
-        echo "0=${BASH_REMATCH[0]}"
+        cecho bold red "Failed to log ~/.persistent_history($reqexp_result)"
+	cecho bold red "historyCmd = '${BLINK}$LAST_CMD${RST}'"
+        cecho bold red "regexp = '$regexp'"
+        cecho "BASH_REMATCH[0] = ${BASH_REMATCH[0]}"
         return
     fi
 
     if [ $reqexp_result -eq 0 -a x${PERSISTENT_HIST_DEBUG} == x"YES" ]
     then
-        cecho "LastCmd: $BLACK'$LAST_CMD'\n${CYAN}RegExp: $BLACK'$regexp'"
+        cecho red "LastCmd: $BLACK'$LAST_CMD'\n${CYAN}RegExp: $BLACK'$regexp'"
 	cecho "ALL = $BLACK [ $full_match ] $RST"
         cecho "year_part = $BLACK [ $year_part ] $RST"
         cecho "date_part = $BLACK [ $date_part ] $RST"
