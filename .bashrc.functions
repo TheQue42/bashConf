@@ -387,10 +387,16 @@ function getBranchPoint()
 }
 declare -fx getBranchPoint
 
-###TQ-TODO: For what
+
 function reMatch {
+    # TODO: This needs tweaking
     typeset ec
     unset -v reMatch # initialize output variable
+    if [ -z $1 -o -z $2 ]
+    then
+	echo "Usage: reMatch <input> <regexp>"
+	return -1
+    fi
     cecho "String is: [$GREEN$1$CYAN] - Regexp: [$DEFAULT$BOLD$2$CYAN]"
     [[ $1 =~ $2 ]] # perform the regex test
     ec=$? # save exit code
@@ -420,34 +426,40 @@ function log_bash_persistent_history()
     LAST_CMD="$(history 1)"
     # 32069  [2023] - {Sat, 21 Oct, 12:51} : is log_bash_persistent_history
 
-    #NR  [YEAR] - DATE_AND_TIME - COMMAND
+    #NR  {YEAR} - {DATE_AND_TIME} : COMMAND
     #local regexp="^[0-9]{1,6}[ ]+\[[0-9]+\][ ]+-[ ]+(.*)[ ]+-[ ]+(.*)$"
     #[[ $(history 1) =~ ^[0-9]{1,6}\ \[.+\]\ -\ (.*)\ -\ +(.*)$ ]];
     #[[ $(history 1) =~ ^.*\[(.*?)\]\ -\ (.*?)\ -\ (.*)$ ]];
     #[[ $LAST_CMD =~ ^.*\[[0-9]+\]\ -\ (.*)\ -\ +(.*)$ ]];
     #local regexp="\s*[0-9]{1,6}\s+\[([0-9]{4,4})\]\s-\s(.*?)\s-\s(.*)"
-    local regexp="[0-9]{1,6}[ ]+\[([0-9]{4,4})\] - {(.*?)}[[:blank:]]+: (.*)"
-    #     regexp="^[0-9]{1,6}[[:blank:]]+\[([0-9]{4,4})\][[:blank:]]-[[:blank:]]{(.*?)}[[:blank:]]+: (.*)"
-    # regexp="^[0-9]{1,6}[[:blank:]]+{[0-9]{4,4}}.*?{(.*?)}.*?: (.*)"
-    regexp="^[0-9]{1,6}.*{(.*)}.*{(.*)}.*: (.*)"
-
+    #local regexp="[0-9]{1,6}[ ]+\[([0-9]{4,4})\] - {(.*?)}[[:blank:]]+: (.*)"
+    local regexp=${PERSISTENT_REGEXP}
+    
     [[ $LAST_CMD =~ $regexp ]]
     reqexp_result=$?
-    local year_part="${BASH_REMATCH[1]}";
-    local date_part="${BASH_REMATCH[2]}";
-    local command_part="${BASH_REMATCH[3]}";
-    if [[ $command_part =~ ^cliGrep ]]; then
+    local full_match="${BASH_REMATCH[0]}"
+    local year_part="${BASH_REMATCH[1]}"
+    local date_part="${BASH_REMATCH[2]}"
+    local command_part="${BASH_REMATCH[3]}"
+    if [[ $command_part =~ ^cliGrep|reMatch ]]; then
         return;
-    fi;
-    if [ $reqexp_result -ne 0 ]
+    fi
+    
+    if [ $reqexp_result -ne 0 -o -z "$command_part" ]
     then
-        cecho red "Failed to log_bash_persistent_history($reqexp_result) cmdpart=[$1] last_cmd=[$BOLD$LAST_CMD$UNBOLD],\n year=$year_part,\n date=$date_part"
-        cecho -bold "regexp=$regexp"
-        echo "1=${BASH_REMATCH[1]}"
-        echo "2=${BASH_REMATCH[2]}"
-        echo "3=${BASH_REMATCH[3]}"
-#        cecho ALL:${BASH_REMATCH[1]}
+        cecho red "Failed to log_bash_persistent_history($reqexp_result) cmdpart=[[$1]] last_cmd=[[$BOLD$LAST_CMD$UNBOLD]],\n year=$year_part,\n date=$date_part"
+        cecho -bold "regexp=[[$regexp]]"
+        echo "0=${BASH_REMATCH[0]}"
         return
+    fi
+
+    if [ $reqexp_result -eq 0 -a x${PERSISTENT_HIST_DEBUG} == x"YES" ]
+    then
+        cecho "LastCmd: $BLACK'$LAST_CMD'\n${CYAN}RegExp: $BLACK'$regexp'"
+	cecho "ALL = $BLACK [ $full_match ] $RST"
+        cecho "year_part = $BLACK [ $year_part ] $RST"
+        cecho "date_part = $BLACK [ $date_part ] $RST"
+        cecho "command_part = $BLACK[ $command_part ] $RST"
     fi
 
     if [ "$command_part" != "$PERSISTENT_HISTORY_LAST" ]
