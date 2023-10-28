@@ -750,7 +750,7 @@ function pCat()
     if [ -z "$1" ]
     then
         cecho -bold red "PathCat Which File??"
-        exit 1
+        return 1
     fi
     if [ "$1" == "-m" -o "$2" == "-m" ]
     then
