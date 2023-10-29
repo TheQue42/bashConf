@@ -5,13 +5,13 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 alias zzz="apt-get upgrade && apt-get update"
-alias docker="podman"
+#alias docker="podman"
 
-export DOCKER="podman"
+export DOCKER="docker"
 export PODS=/pods
 export ZWJS="/var/lib/zwave"
 export LANG=POSIX
 export SSH_AGENT_PID="Not now"
 export ZIGBEE="/var/lib/zigbee2mqtt"
-export CRI_SOCKET=/run/podman/podman.sock
+#export CRI_SOCKET=/run/podman/podman.sock
 
