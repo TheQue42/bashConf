@@ -13,3 +13,5 @@ export ZWJS="/var/lib/zwave"
 export LANG=POSIX
 export SSH_AGENT_PID="Not now"
 export ZIGBEE="/var/lib/zigbee2mqtt"
+export CRI_SOCKET=/run/podman/podman.sock
+
