@@ -2,4 +2,5 @@ logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 export PODS=/pods
 alias docker=podman
+export DOCKER=podman
 
