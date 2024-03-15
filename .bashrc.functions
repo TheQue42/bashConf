@@ -158,12 +158,19 @@ export -f ttr
 
 function tf()
 {
+    if isBsd
+    then
+	FOLLOW=-f
+    else
+	FOLLOW=-F
+    fi
+    
     if [ $# -eq 1 ]
     then
-        tail -f $1
+        tail $FOLLOW $1
     elif [ -z $1 ]
     then
-        tail -f /var/log/messages
+        tail $FOLLOW /var/log/messages
     fi
 }
 
