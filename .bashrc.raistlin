@@ -5,7 +5,7 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 export PODS=/pods
-export SSH_AGENT_PID="DISABLE"
+#export SSH_AGENT_PID="DISABLE"
 export REPOS=/root/repos
 export SIPP=/home/taisto/repos/rtt-focus/3pp/sipp/sipp
 export GCC_THREADS="$(nproc)"
@@ -13,11 +13,11 @@ export GCC_THREADS="$(nproc)"
 alias zz="zypper"
 
 alias cdr="cd ~/repos/rtt-focus"
-alias cleanLogs='find . -name "*.log" -o -name "*.log.std*" -o -name failedTcLogs.txt -o -name output.xml -o -name log.xml | xargs -rt rm'
+alias cleanLogs='find . -name "*.log" -o -name "*.log.std*" -o -name failedTcLogs.txt -o -name "*.stdOut" -o -name "*.stdErr" -o -name output.xml -o -name log.xml | xargs -rt rm'
 alias eclipse="~/eclipse/eclipse"
 
 alias mm="make -j$GCC_THREADS"
-alias mmC="CFLAGS="-DNWISE_TEST_BT" nice make -j$GCC_THREADS ccm "
+alias mmC="make -j$GCC_THREADS ccm "
 alias mma="make -j$GCC_THREADS all"
 alias mmt="nice make -j$GCC_THREADS ut_run"
 alias mmu="make -j$GCC_THREADS ut"
