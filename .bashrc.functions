@@ -160,9 +160,9 @@ function tf()
 {
     if isBsd
     then
-	FOLLOW=-f
+        FOLLOW="-f"
     else
-	FOLLOW=-F
+        FOLLOW="-F"
     fi
     
     if [ $# -eq 1 ]
@@ -401,8 +401,8 @@ function reMatch {
     unset -v reMatch # initialize output variable
     if [ -z $1 -o -z $2 ]
     then
-	echo "Usage: reMatch <input> <regexp>"
-	return -1
+    echo "Usage: reMatch <input> <regexp>"
+    return -1
     fi
     cecho "String is: [$GREEN$1$CYAN] - Regexp: [$DEFAULT$BOLD$2$CYAN]"
     [[ $1 =~ $2 ]] # perform the regex test
@@ -450,7 +450,7 @@ function log_bash_persistent_history()
     if [ $reqexp_result -ne 0 -o -z "$command_part" ]
     then
         cecho bold red "Failed to log ~/.persistent_history($reqexp_result)"
-	cecho bold red "historyCmd = '${BLINK}$LAST_CMD${RST}'"
+    cecho bold red "historyCmd = '${BLINK}$LAST_CMD${RST}'"
         cecho bold red "regexp = '$regexp'"
         cecho "BASH_REMATCH[0] = ${BASH_REMATCH[0]}"
         return
@@ -459,7 +459,7 @@ function log_bash_persistent_history()
     if [ $reqexp_result -eq 0 -a x${PERSISTENT_HIST_DEBUG} == x"YES" ]
     then
         cecho red "LastCmd: $BLACK'$LAST_CMD'\n${CYAN}RegExp: $BLACK'$regexp'"
-	cecho "ALL = $BLACK [ $full_match ] $RST"
+    cecho "ALL = $BLACK [ $full_match ] $RST"
         cecho "year_part = $BLACK [ $year_part ] $RST"
         cecho "date_part = $BLACK [ $date_part ] $RST"
         cecho "command_part = $BLACK[ $command_part ] $RST"
