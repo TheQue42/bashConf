@@ -15,7 +15,6 @@ function isInteractiveShell()
   else
     return 1
   fi
-   
 }
 
 function logPrint()
@@ -63,4 +62,3 @@ function addToPath()
 export -f logPrint isBsd isSuse isInteractiveShell addToPath
 
 logPrint "${GREEN}Read bashrc.init$DEFAULT"
-
