@@ -16,7 +16,10 @@ export CRI_SOCKET=/var/run/docker.sock
 alias zz="zypper"
 
 alias cdr="cd ~/repos/rtt-focus"
-alias cleanLogs='find . -name "*.log" -o -name "*.std*" -o -name "*.msgAll.log" -o -name "*.msgList.log" -o -name failedTcLogs.txt -o -name output.xml -o -name log.xml | xargs -rt rm'
+function cleanLogs() {
+   find . -name "*.log" -o -name "*.std*" -o -name "*.msgAll.log" -o -name "*.msgList.log" -o -name failedTcLogs.txt -o -name output.xml -o -name log.xml | xargs -rt rm
+}
+   
 alias eclipse="~/eclipse/eclipse"
 
 alias mm="make -j$GCC_THREADS"
