@@ -367,7 +367,7 @@ export -f cecho
 function printGitBranchForPS1IfAvail
 {
     GIT_BRANCH=`parse_git_branch`
-    if [ $PWD == $HOME ]
+    if [ "$PWD" == "$HOME" ]
     then
         return 0
     fi
