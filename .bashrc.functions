@@ -777,3 +777,10 @@ function pCat()
 complete -c pCat
 export -f pCat
 
+
+function utFilter {
+#egrep --line-buffered --color=always -e "^" -e "TcResult: false"
+    egrep -v --line-buffered "UnitTest/TcEnd.*TcResult: true" | egrep "TcResult: |doctest|CHECK|ASSERT|/TcStart";
+}
+export -f utFilter
+
