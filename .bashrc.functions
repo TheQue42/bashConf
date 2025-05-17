@@ -777,6 +777,11 @@ function pCat()
 complete -c pCat
 export -f pCat
 
+function jwtDecode()
+{
+    jq -R 'split(".") | .[0],.[1] | @base64d | fromjson'
+}
+export -f jwtDecode
 
 function utFilter {
 #egrep --line-buffered --color=always -e "^" -e "TcResult: false"

@@ -12,19 +12,19 @@ alias ll="ls -laF"
 alias ls="ls -aF"
 alias cd..='cd ..'
 alias md='mkdir -p'
-
+alias egrep="\grep -E"
+alias grep='\grep -E -i --color=auto'
 #
 ### Misc
 #
 alias hh=history
 alias rrc='source ~/.bashrc'
-alias grep='egrep -i --color=auto'
 # psg moved to .bashrc.<hostname> since it differs on BSD
 alias kd3=kdiff3
 alias ftail="docker logs -f frigate 2>&1"
-alias wg='egrep "(WARN|ERR| fail)"'
+alias wg='grep -E "(WARN|ERR| fail)"'
 alias ssK="ssh-add ~/.ssh/Taisto_Admin-2022.ppk.pem"
-
+alias bb="brave-browser"
 #
 ## git stuff
 #
@@ -72,7 +72,7 @@ then
     alias pstree=dtpstree
 fi
 alias sr4='route -n show -inet'
-alias sr6='route -n show -inet6 | egrep -vi "^F|UHLc"'
+alias sr6='route -n show -inet6 | grep -E -vi "^F|UHLc"'
 alias srA='route -n show'
 alias sudo="sudo -H"
 alias rlist="pfctl -vv -s r | grep ^@"
