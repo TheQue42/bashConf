@@ -46,25 +46,22 @@ function pf-sniff()
     sleep 0.2
     if [[ $1 =~ file|read|-r ]]
     then
-        if [[ $1 =~ all ]] || [[ $2 =~ all ]] # DONT 'shift' before
+        shift
+        if [[ $1 =~ all ]]
         then
-            cecho "Processing ALL pflogs.*.gz in /var/log" 1>&2
-            sleep 0.1
             shift
-            if [[ $1 =~ all ]]
-            then
-                shift
-            fi
-            for i in $(ls -t /var/log/pf*gz)
+            cecho "Processing ALL pflogs.*.gz in /var/log" 1>&2;
+            sleep 0.1;
+            for i in $(ls -t /var/log/pf*gz);
             do
-                zcat $i | tcpdump $DASH_N -etttr - $* 2>/dev/null
-            done
+                zcat $i | tcpdump $DASH_N -etttr - $* 2> /dev/null;
+            done;
         else
-            shift
-            tcpdump $DASH_N -etttr /var/log/pflog $*
-        fi
+            shift;
+            tcpdump $DASH_N -etttr /var/log/pflog;
+        fi;
     else
-        tcpdump $DASH_N -nettti pflog0 $*
+        tcpdump $DASH_N -nettti pflog0 $*;
     fi
 }
 export -f pf-sniff
