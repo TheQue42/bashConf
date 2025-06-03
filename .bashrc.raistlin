@@ -17,7 +17,7 @@ alias zz="zypper"
 
 alias cdr="cd ~/repos/rtt-focus"
 function cleanLogs() {
-   find . -name "*.log" -o -name "*.std*" -o -name "*.msgAll.log" -o -name "*.msgList.log" -o -name failedTcLogs.txt -o -name output.xml -o -name log.xml | xargs -rt rm
+   find . -name "*.log" -o -name "*.std*" -o -name "*.msgAll.log" -o -name "*.msgList.log" -o -name failedTcLogs.txt -o -name output.xml -o -name log.xml -o -name coverage.cobertura.xml | xargs -rt rm
 }
    
 alias eclipse="~/eclipse/eclipse"
@@ -32,3 +32,6 @@ alias mmD="make distclean"
 alias mmb="make -j$GCC_THREADS bt"
 alias mmB="nice make -j$GCC_THREADS bt_run"
 
+
+alias ee="emacs -nw"
+export EDITOR="emacs -nw"
