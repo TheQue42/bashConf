@@ -1,5 +1,7 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
+CUSTOM_NODE_CONFIG_FILE=TRUE
+
 export PODS=/pods
 export DOCKER=podman
 export SSH_AGENT_PID="Not now"
