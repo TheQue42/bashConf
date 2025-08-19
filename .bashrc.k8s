@@ -2,6 +2,17 @@ export NKS="-n kube-system"
 alias kk="kubectl"
 alias kc="kubecolor"
 
+export CRB=clusterrolebinding
+export CR=clusterrole
+export RB=rolebinding
+export W="-o wide"
+export Y="-o YAML"
+
+if [ -s ${HOME}/.krew/bin ]
+then
+  addToPath ${HOME}/.krew/bin
+fi
+
 function setDefaultNs()
 {
   echo "Setting kubeconfig default namespace to: ${1:-tq}"
