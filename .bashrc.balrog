@@ -10,3 +10,6 @@ export NSD_EXT=/var/nsd/zones/ext/
 export TERM=xterm-256color
 export SSH_AGENT_PID="DISABLE"
 export PY3=/root/py39
+
+alias egrep="\ggrep -E"
+alias grep='\ggrep -E -i'

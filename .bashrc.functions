@@ -4,6 +4,8 @@ logPrint "${GREEN}Reading ~/.bashrc.functions$DEFAULT"
 
 #TQ-TODO: Create sections for different types of functions?
 
+#isBsd and isSuse defined in .bashrc.init
+
 function consoleReset()
 {
     export PS_OLD="$PS1"
@@ -77,11 +79,11 @@ function pf-rules()
     FILTER=""
     if [ -z $1 ]
     then
-        pfctl -vv -s r | egrep "@"
+        pfctl -vv -s r | grep '@'
     else
         for i in $*
         do
-            FILTER="egrep $i|$FILTER"
+            FILTER="grep -E $i|$FILTER"
         done
         PF_FILTER=${FILTER%|}
         cecho cyan "Will eval: [pfctl -vv -s r | grep @ | $PF_FILTER]"
@@ -100,7 +102,7 @@ function qgrep()
     else
         for i in $*
         do
-            FILTER="egrep $i|$FILTER"
+            FILTER="grep -E $i|$FILTER"
         done
         GREP_FILTER=${FILTER%|}
         cecho cyan "Will eval: [pfctl -vv -s r | $GREP_FILTER]"
@@ -108,30 +110,14 @@ function qgrep()
     fi
 }
 
-function isSuse()
-{
-    if [ -s /etc/os-release ]
-    then
-        grep -qi suse /etc/os-release
-    else
-        return 1
-    fi
-}
-export -f isSuse
-
-function isBsd()
-{
-    uname -a | egrep -iq bsd
-}
-export -f isBsd
 
 function is()
 {
     TYPE_IS=$(type $1)
-    if echo $TYPE_IS | egrep --color=auto -iq "function"
+    if [[ $TYPE_IS =~ function ]]
     then
         type $1;
-    elif echo $TYPE_IS | egrep -q alias
+    elif [[ $TYPE_IS =~ alias ]]
     then
          ali\as $1;
     elif which $1 >/dev/null
@@ -145,7 +131,7 @@ export -f is
 
 function stripcom()
 {
-    egrep -v "^(\s*#|$)" $1
+    grep -E -v "^(\s*#|$)" $1
 }
 
 function ttr() {
@@ -175,7 +161,7 @@ function pl()
 {
   if ! isBsd
   then
-    journalctl -b $* | egrep -i "postfix|smtp"
+    journalctl -b $* | grep -E -i "postfix|smtp"
   else
     if [ x"$1" == x"-f" ]
     then
@@ -484,8 +470,8 @@ function cliGrep()
         shift
         if ! [ -z "$*" ]
         then
-            # echo "Running [egrep "$*" $PERM_HIST]"
-            egrep "$*" $PERM_HIST;
+            # echo "Running [grep -E "$*" $PERM_HIST]"
+            grep -E "$*" $PERM_HIST;
             return
         fi
     elif [[ $1 =~ ^-m ]]
@@ -494,14 +480,14 @@ function cliGrep()
         INTERVAL=$((INTERVAL*100))
         shift
         cecho "interval = $INTERVAL"
-        egrep "$@" $PERM_HIST | tail -$INTERVAL;
+        grep -E "$@" $PERM_HIST | tail -$INTERVAL;
         return
     elif ! [ -z $* ]
     then
         DAY_NAME=`date +%a`;
         DAY_NR=`date +%d`; # 0-Indexed
         cecho "Date-based ($*) [grep \"^$DAY_NAME, $DAY_NR\" $PERM_HIST]"
-        egrep  "^$DAY_NAME, $DAY_NR" $PERM_HIST | egrep "$*"
+        grep -E  "^$DAY_NAME, $DAY_NR" $PERM_HIST | grep -E "$*"
         return
     fi
     cecho -bold red "What do you want to grep for??"
@@ -542,7 +528,7 @@ function doneDate()
     fi;
     YEAR=`date +%Y`;
     ALL_DAY="/tmp/doneDate.$DAY_NR.$MONTH.all";
-    egrep --color=never "^[a-zA-Z]{3,3}, $DAY_NR $MONTH," $PERM_HIST | sort -n > $ALL_DAY;
+    grep -E --color=never "^[a-zA-Z]{3,3}, $DAY_NR $MONTH," $PERM_HIST | sort -n > $ALL_DAY;
     head -15 $ALL_DAY;
     tail -15 $ALL_DAY;
     if [ -z $ALL ]; then
@@ -569,9 +555,9 @@ function dps()
     elif [[ "$1" =~ -all ]]
     then
     shift
-    docker ps --all --format "$TABLE" | egrep "(CONTAINER ID|$*)"
+    docker ps --all --format "$TABLE" | grep -E "(CONTAINER ID|$*)"
     else
-        docker ps --format "$TABLE" | egrep "(CONTAINER ID|$*)"
+        docker ps --format "$TABLE" | grep -E "(CONTAINER ID|$*)"
     fi
 }
 
@@ -661,31 +647,31 @@ function dDump()
 }
 export -f dDump
 
-function cdLL()
-{
-   if [ -z $1 ]
-   then
-       echo "Listing logs in /var/lib/docker/volumes/kolla_logs/_data"
-       echo ""
-       find /var/lib/docker/volumes/kolla_logs/_data -name "*.log"
-   else
-       echo "Will search for logfiles matching name [$1]..."
-       FILE=`find /var/lib/docker/volumes/kolla_logs/_data -name "*.log" | grep $1`
-       if [ -s "$FILE" ]
-       then
-           echo more $FILE
-       elif [ -s "$FILE.log" ]
-       then
-           echo more $FILE
-       else
-           for i in $FILE
-           do
-               echo more $i
-           done
-       fi
-       echo "------end-----"
-   fi
-}
+#function cdLL()
+#{
+   #if [ -z $1 ]
+   #then
+       #echo "Listing logs in /var/lib/docker/volumes/kolla_logs/_data"
+       #echo ""
+       #find /var/lib/docker/volumes/kolla_logs/_data -name "*.log"
+   #else
+       #echo "Will search for logfiles matching name [$1]..."
+       #FILE=`find /var/lib/docker/volumes/kolla_logs/_data -name "*.log" | grep $1`
+       #if [ -s "$FILE" ]
+       #then
+           #echo more $FILE
+       #elif [ -s "$FILE.log" ]
+       #then
+           #echo more $FILE
+       #else
+           #for i in $FILE
+           #do
+               #echo more $i
+           #done
+       #fi
+       #echo "------end-----"
+   #fi
+#}
 
 
 LoopPfLogs ()
@@ -727,10 +713,10 @@ function ZZZ()
     then
         cecho -bold red "This aint Suse, so you need to run something else for updates:"
         cecho -green "Maybe: [apt-get update && apt-get upgrade]"
-    return
+        return
     fi
     zypper -t lu >/tmp/zypper.out
-    ZUPP=$(cat /tmp/zypper.out  | grep ^v | cut -d"|" -f3 | grep -v "kernel|dracut|system|udev")
+    ZUPP=$(cat /tmp/zypper.out  | grep -E "^v" | cut -d"|" -f3 | grep -Ev "kernel|dracut|system|udev")
     if [ -z "$ZUPP" ]
     then
         if grep -q "No updates found" /tmp/zypper.out
@@ -781,16 +767,18 @@ function jwtDecode()
 export -f jwtDecode
 
 function utFilter {
-#egrep --line-buffered --color=always -e "^" -e "TcResult: false"
-    egrep -v --line-buffered "UnitTest/TcEnd.*TcResult: true" | egrep "TcResult: |doctest|CHECK|ASSERT|/TcStart";
+#grep -E --line-buffered --color=always -e "^" -e "TcResult: false"
+    grep -E -v --line-buffered "UnitTest/TcEnd.*TcResult: true" | grep -E "TcResult: |doctest|CHECK|ASSERT|/TcStart";
 }
 export -f utFilter
 
-function epocToNow {
+
+function epocToNow()
+{
     if [ -z "$1" ]
     then
-	echo "Need time in epoc seconds"
-	exit 1
+        echo "Need time in epoc seconds"
+        return 1
     fi
     date -u -d @${1} +"%c"
 }

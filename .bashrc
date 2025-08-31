@@ -69,16 +69,16 @@ then
 
     if [ -f $HOME/.bashrc.k8s ]
     then
-	logPrint $CYAN"Sourcing .bashrc.k8s"
-	source $HOME/.bashrc.k8s
+    logPrint $CYAN"Sourcing .bashrc.k8s"
+    source $HOME/.bashrc.k8s
     fi
-    
+
     if [ -s ~/.bashrc.$(hostname -s) ]
     then
-	logPrint "ReSourcing ~/.bashrc.$(hostname -s) to ensure local aliases are overridden."
-	source ~/.bashrc.$(hostname -s)
+    logPrint "ReSourcing ~/.bashrc.$(hostname -s) to ensure local aliases are overridden."
+    source ~/.bashrc.$(hostname -s)
     fi
-    
+
     # If you want to disable ssh-agent startup, just set SSH_AGENT_PID to anything, in .bashrc.env or .bashrc.<hostname>
     if [ -z "$SSH_AGENT_PID" ]
     then

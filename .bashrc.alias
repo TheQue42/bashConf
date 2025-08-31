@@ -13,7 +13,7 @@ alias ls="ls -aF"
 alias cd..='cd ..'
 alias md='mkdir -p'
 alias egrep="\grep -E"
-alias grep='\grep -E -i --color=auto'
+alias grep='\grep -E -i'
 #
 ### Misc
 #
