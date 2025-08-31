@@ -786,3 +786,11 @@ function utFilter {
 }
 export -f utFilter
 
+function epocToNow {
+    if [ -z "$1" ]
+    then
+	echo "Need time in epoc seconds"
+	exit 1
+    fi
+    date -u -d @${1} +"%c"
+}

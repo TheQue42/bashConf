@@ -2,6 +2,8 @@
 # .bashrc.vimes.
 #
 
+CUSTOM_NODE_CONFIG_FILE=TRUE
+
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
 export PODS=/pods

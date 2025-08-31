@@ -3,6 +3,8 @@ logPrint "Processing ~/.bashrc.$(uname -s)"
 export CVSROOT=anoncvs@anoncvs.eu.openbsd.org:/cvs
 export CVS_RSH=/usr/bin/ssh
 
+CUSTOM_NODE_CONFIG_FILE=TRUE
+
 ulimit -c 0
 umask 022
 

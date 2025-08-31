@@ -1,5 +1,7 @@
 logPrint "Processing ~/.bashrc.$(hostname -s)"
 
+CUSTOM_NODE_CONFIG_FILE=TRUE
+
 ### TQ-TODO: Do we need this in .bashrc.init as well?
 export POD_BASE="/tmp/none"
 export CHANGELOG_DST=taisto@ip-s.se

@@ -1,0 +1,64 @@
+export NKS="-n kube-system"
+alias kk="kubectl"
+alias kc="kubecolor"
+
+export CRB=clusterrolebinding
+export CR=clusterrole
+export RB=rolebinding
+export W="-o wide"
+export Y="-o YAML"
+
+if [ -s ${HOME}/.krew/bin ]
+then
+  addToPath ${HOME}/.krew/bin
+fi
+
+function setDefaultNs()
+{
+  echo "Setting kubeconfig default namespace to: ${1:-tq}"
+  kubectl config set-context --current --namespace=${1:-tq}
+}
+
+function setK8cfg()
+{
+  FILE=$(readlink -n -f $1); 
+  export KUBECONFIG="$FILE"; 
+  echo KUBECONFIG is now set to [$KUBECONFIG];
+}
+
+if [ -s /etc/kubernetes/admin.conf ]
+then
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+  echo "Setting kubeconf to [$KUBECONFIG]"
+fi
+
+function getCRB()
+{
+  FILTER='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind=="ServiceAccount")].name'
+  kubectl get sa,rolebindings,clusterrolebindings -A -o custom-columns="$FILTER" | grep --color=auto ${1:-admin}
+}
+
+
+function k8completion()
+{
+  kubectl completion bash > ~/.bashrc.k8s_completion
+  source ~/.bashrc.k8s_completion
+}
+
+
+function getPods()
+{
+  kubectl get pods -A -o wide | grep ${1:-.}
+}
+
+
+#function oneCol() {     perl -ane "print \$F[$1] . \"\n\"" }
+
+
+if [ -s ~/.bashrc.k8s_completion ]
+then
+  source ~/.bashrc.k8s_completion
+fi
+
+complete -o default -F __start_kubectl kc
+complete -o default -F __start_kubectl kk

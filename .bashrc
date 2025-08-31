@@ -67,6 +67,12 @@ then
     __git_complete gco _git_checkout
     __git_complete gb _git_branch
 
+    if [ -f $HOME/.bashrc.k8s ]
+    then
+	logPrint $CYAN"Sourcing .bashrc.k8s"
+	source $HOME/.bashrc.k8s
+    fi
+    
     if [ -s ~/.bashrc.$(hostname -s) ]
     then
 	logPrint "ReSourcing ~/.bashrc.$(hostname -s) to ensure local aliases are overridden."
