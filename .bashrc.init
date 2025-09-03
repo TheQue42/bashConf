@@ -33,9 +33,9 @@ function isBsd()
 {
     if [ -z "$HOST_OS" ]
     then
+        export HOST_OS=$(uname -s)
         if uname -s | grep -iq bsd
         then
-            export HOST_OS=$(uname -s)
             return 0
         fi
     elif [[ $HOST_OS =~ bsd ]]
