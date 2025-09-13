@@ -1,7 +1,11 @@
 logPrint "Processing ~/.bashrc.$(uname -s)"
 
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin:~/bin
 export CVSROOT=anoncvs@anoncvs.eu.openbsd.org:/cvs
 export CVS_RSH=/usr/bin/ssh
+#PKG_PATH="https://www.mirrorservice.org/pub/OpenBSD//$(uname -r)/packages/$(arch -s)/:http://ftp.eu.openbsd.org/pub/OpenBSD/$(uname -r)/packages/$(arch -s)/"
+#PKG_PATH="https://stable.mtier.org/updates/$(uname -r)/$(arch -s)/:${PKG_PATH}"
+export PATH CVS_RSH CVSROOT PS1 RSYNC_RSH HOME TAPE EDITOR TERM PKG_PATH
 
 CUSTOM_NODE_CONFIG_FILE=TRUE
 
