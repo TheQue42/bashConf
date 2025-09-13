@@ -14,6 +14,20 @@ function consoleReset()
     tput init
     resize
     echo "Old PS1 ==> [$PS_OLD]"
+    return
+    case "$-" in
+        *i*)    # interactive shell
+            if [ -x /usr/bin/tset ]
+            then
+                if [ X"$XTERM_VERSION" = X"" ]
+                then
+                    eval `/usr/bin/tset -sQ '-munknown:?vt220' $TERM`
+                else
+                    eval `/usr/bin/tset -IsQ '-munknown:?vt220' $TERM`
+                fi
+            fi
+            ;;
+    esac
 }
 
 function ps1Git()
