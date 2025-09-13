@@ -48,10 +48,17 @@ then
     cecho red "You might want to MERGE changes with upstream first?"
     pushd ~/bashConf && git pull --ff-only && git ls -2 && popd
     exit $?
-elif git status | grep ahead
+elif git status | grep "ahead"
 then
     echo "Have you forgotten to do:"
     echo "pushd ~/bashConf/; git push; popd"
+    exit 1
+elif git status | grep -q "Changes not staged for commit"
+then
+    echo "There are files to add and COMMIT!"
+    git status -s
+    echo ------
+    echo "pushd ~/bashConf && git add -u && git commit -m $(uname -s)-$1 && git push && popd"
     exit 1
 fi
 cd ~
