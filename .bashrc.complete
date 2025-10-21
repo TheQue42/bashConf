@@ -526,11 +526,14 @@ _complete_alias() {
 #complete -F _complete_alias myalias2
 #complete -F _complete_alias myalias3
 
+COMPLETED_ALIAS=""
 if ! isBsd
 then
-    for i in $(alias | perl -pe 's#alias ##' | cut -d "=" -f1 | grep "^[a-aA-Z]")
+    for i in $(alias | perl -pe 's#alias ##'| grep -vE '[|;]|grep|ee[a-z]=' | cut -d "=" -f1 | grep "^[a-zA-Z]")
     do
+	COMPLETED_ALIAS="$i $COMPLETED_ALIAS"
         complete -F _complete_alias $i
     done
 fi
+cecho "Completed aliases: $COMPLETED_ALIAS"
 complete -A function is

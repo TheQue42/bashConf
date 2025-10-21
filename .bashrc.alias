@@ -92,9 +92,4 @@ alias vdump="virsh dumpxml"
 alias vDD="virsh destroy"
 alias qi=qemu-img
 alias c="/root/bin/qssh.sh"
-
-
-
 alias gau="git add -u"
-alias btlogs='docker logs -f room-assistant'
-alias rtail="docker logs -f room-assistant"
