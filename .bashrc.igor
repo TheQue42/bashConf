@@ -5,5 +5,10 @@ CUSTOM_NODE_CONFIG_FILE=TRUE
 export PODS=/pods
 export DOCKER=podman
 export SSH_AGENT_PID="Not now"
+export CRI_SOCKET=/run/podman/podman.sock
 
 alias docker=podman
+alias ee=mg
+
+
+
