@@ -1,10 +1,13 @@
 #
-# .bashrc.vimes.
+# .bashrc.feegle.
 #
 
 CUSTOM_NODE_CONFIG_FILE=TRUE
 
 logPrint "Processing ~/.bashrc.$(hostname -s)"
+
+export CRI_SOCKET=/run/podman/podman.sock
+export DOCKER=podman
 
 export PODS=/pods
 
@@ -19,10 +22,6 @@ export FRIGATE="$PODS/frigate"
 export MQTT="$PODS/mqtt"
 export ROOM_ASSISTANT=\$PODS/room-assistant/
 
-## Not used anymore
-#export MOTION_IN=/var/lib/unifi-video/logs/motion.log;
-#export MOTION_OUT=/var/lib/ha/camera_motion.log
-
 export SSH_AGENT_PID="DISABLE"
 
 export REPOS=/root/repos
@@ -36,7 +35,8 @@ alias zz="zypper"
 alias cdhh="cd $HA"
 alias halt="Halta"
 
-#gr\ep -v "[matplotlib] loaded modules"
 alias tff="tail -F $HAL | perl -pe 's#state=<.*?>#state=<>#g' | grep --line-buffered -v '.{800,}' "
-
 alias tfh="tail -F $HAL | grep --line-buffered -v '.{800,}' "
+
+alias ccc="cd /etc/containers/systemd"
+export ECS="/etc/containers/systemd"
