@@ -37,6 +37,6 @@ alias halt="Halta"
 
 alias tff="tail -F $HAL | perl -pe 's#state=<.*?>#state=<>#g' | grep --line-buffered -v '.{800,}' "
 alias tfh="tail -F $HAL | grep --line-buffered -v '.{800,}' "
-
+alias ql="podman quadlet list"
 alias ccc="cd /etc/containers/systemd"
 export ECS="/etc/containers/systemd"
