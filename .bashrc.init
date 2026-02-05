@@ -3,9 +3,9 @@
 # .bashrc.init
 #
 
-DEFAULT="\e[0m";
-GREEN="\e[32m";
-CYAN="\e[36m";
+DEFAULT="\e[0m"
+GREEN="\e[32m"
+CYAN="\e[36m"
 
 export HOST_OS=$(uname -s)
 shopt -s nocasematch

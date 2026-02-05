@@ -123,10 +123,8 @@ then
     else
         RH="$GREEN"
     fi
-    export PS1="\$(printGitBranchForPS1IfAvail)$RH$BOLD\u$RST@\h:\W\n\\$> "
-    export PS_ORG=${PS1}
-    export PS_A="\$(printGitBranchForPS1IfAvail)\u@\h:\W\\$> "
-
+    export PS1="$RH$BOLD\u$RST@\h:\W\n\\$> "
+	ps1Git
     logPrint "Finished processing ${GREEN}.bashrc$DEFAULT for user $USER (HOME=$HOME)"
     uptime
 fi

@@ -30,17 +30,6 @@ function consoleReset()
     esac
 }
 
-function ps1Git()
-{
-    if [ $USER == root ]
-    then
-        RH="$RED"
-        export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
-    else
-        RH="$GREEN"
-        export PS1="\$(printGitBranchForPS1IfAvail)${GREEN}\u${DEFAULT}@\h:\W\n${RH}\\$> ${DEFAULT}"
-    fi
-}
 
 function gPush()
 {
@@ -272,23 +261,6 @@ export -f colstrip
 
 function cecho()
 {
-    DEFAULT="\e[0m";
-    RST="$DEFAULT"
-    BOLD="\e[1m";
-    NOTBOLD="\e[22m";
-    UNBOLD="\e[22m";
-    BLACK="\e[30m";
-    RED="\e[31m";
-    GREEN="\e[32m";
-    YELLOW="\e[33m";
-    BLUE="\e[34m";
-    PINK="\e[35m";
-    CYAN="\e[36m";
-    WHITE="\e[37m";
-    UNDERLINE="\e[4m";
-    BLINK="\e[5m";
-    INVERSE="\e[7m";
-
     if [ -z "$1" ]
     then
         echo -en $DEFAULT;
@@ -359,24 +331,10 @@ export -f cecho
 
 
 ###
-# GIT STUFF
+# GIT STUFF (Some of this is dependent on /usr/share/bash-completion/completions/git-prompt.sh)
 ###
-function printGitBranchForPS1IfAvail
-{
-    GIT_BRANCH=`parse_git_branch`
-    if [ "$PWD" == "$HOME" ]
-    then
-        return 0
-    fi
-    if ! [ -z $GIT_BRANCH ]
-    then
-        echo -e $BOLD[${UNBOLD}git:$BLINK$BLUE${GIT_BRANCH}$RST$BLACK$BOLD]$RST
-    else
-        echo -e $DEFAULT # TODO: CHeck if it messess upp screen-positions...
-    fi
-}
 
-function parse_git_branch()
+function gitBranch()
 {
     ref=$(git-symbolic-ref HEAD 2> /dev/null) || return;
     echo ${ref#refs/heads/}
@@ -391,6 +349,53 @@ function getBranchPoint()
 }
 declare -fx getBranchPoint
 
+function blinkIfHostNotHostBranch
+{
+	if [[ $PWD =~ bin ]]
+	then
+		if ! [ $(gitBranch) == $(hostname -s) ]
+		then
+			echo -e "${BLINK}" #${ESC1}${BLINK}${ESC2}"
+		fi
+	fi
+}
+
+function ps1Git()
+{
+    if [ $USER == root ]
+    then
+        RH="$RED"
+    else
+        RH="$BLUE"
+    fi
+    ESC1='\['
+    ESC2='\]'
+    
+	if [ $(hostname -s) == "${GIT_BRANCH}" ]
+	then
+		BLNK=""
+	else
+		BLNK="${BLINK}"
+	fi
+	
+	# Not Yet Used
+	if [ "${GIT_BRANCH}" == master ]
+	then
+		B_COL="${RED}"
+	else
+		B_COL="${BLUE}"
+	fi
+    
+    export GIT_PS1_SHOWDIRTYSTATE=true
+    export GIT_PS1_SHOWUPSTREAM=auto
+    export GIT_PS1_SHOWCONFLICTSTATE=yes
+    export GIT_PS1_SHOWCOLORHINTS=true
+    export PROMPT_DIRTRIM=2
+    USER_AND_REPO="${ESC1}${RH}${ESC2}\u${ESC1}${DEFAULT}${ESC2}@(${ESC1}\$(blinkIfHostNotHostBranch)${ESC2}\$(__git_ps1 '%s')${ESC1}$RST${ESC2}):"
+    HOST_AND_PATH="${ESC1}${GREEN}${ESC2}\h${ESC1}${WHITE}${ESC2}@${ESC1}${PINK}${BOLD}${ESC2}\w${ESC1}$RST${ESC2}> "
+	export PS1="$USER_AND_REPO\n$HOST_AND_PATH"  #${ESC1}${DEFAULT}${ESC2}    
+    #. $HOME/.bashrc.env
+}
 
 function reMatch {
     # TODO: This needs tweaking
@@ -575,16 +580,6 @@ function dps()
     fi
 }
 
-
-#ml()
-#{
-#    LIST=`find  /var/lib/docker/volumes/kolla_logs/_data/ | grep $1`
-#    for i in $LIST
-#    do
-#        echo cat $i
-#    done
-#}
-
 function dshell()
 {
     if [ $# -lt 2 ]
@@ -661,33 +656,6 @@ function dDump()
 }
 export -f dDump
 
-#function cdLL()
-#{
-   #if [ -z $1 ]
-   #then
-       #echo "Listing logs in /var/lib/docker/volumes/kolla_logs/_data"
-       #echo ""
-       #find /var/lib/docker/volumes/kolla_logs/_data -name "*.log"
-   #else
-       #echo "Will search for logfiles matching name [$1]..."
-       #FILE=`find /var/lib/docker/volumes/kolla_logs/_data -name "*.log" | grep $1`
-       #if [ -s "$FILE" ]
-       #then
-           #echo more $FILE
-       #elif [ -s "$FILE.log" ]
-       #then
-           #echo more $FILE
-       #else
-           #for i in $FILE
-           #do
-               #echo more $i
-           #done
-       #fi
-       #echo "------end-----"
-   #fi
-#}
-
-
 LoopPfLogs ()
 {
     if [[ "$1" =~ -m[0-9]+ ]]
@@ -729,17 +697,17 @@ function ZZZ()
         cecho -green "Maybe: [apt-get update && apt-get upgrade]"
         return
     fi
-    zypper -t lu >/tmp/zypper.out
-    ZUPP=$(cat /tmp/zypper.out  | grep -E "^v" | cut -d"|" -f3 | grep -Ev "kernel|dracut|system|udev")
+    zypper -t lu >/tmp/zypper.$USER
+    ZUPP=$(cat /tmp/zypper.$USER  | grep -E "^v" | cut -d"|" -f3 | grep -Ev "kernel|dracut|system|udev")
     if [ -z "$ZUPP" ]
     then
-        if grep -q "No updates found" /tmp/zypper.out
+        if grep -q "No updates found" /tmp/zypper.$USER
         then
             cecho -bold green "No updates (at all)"
         else
             cecho "Mainly kernel updates..."
             cecho -----------------
-            cat /tmp/zypper.out
+            cat /tmp/zypper.$USER
             cecho -----------------
         fi
         return

@@ -1,2 +1,4 @@
 .bashrc.p*
 .bash_history
+.bash*private
+
