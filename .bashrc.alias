@@ -58,9 +58,15 @@ alias g-log="git log --graph --oneline --decorate --abbrev-commit"
 #
 ##
 #
-alias ee="emacs -nw"
+if [[ $(which mg) =~ bin ]]
+then  
+    alias ee="emacs -nw"
+else
+    alias ee="mg"
+fi
+
 alias ge="geany"
-alias stl="systemctl"
+alias jctl=journalctl
 alias show_route="netstat -rn"
 # rl, dl, pl, are better as functions (to handle bsd/linux diffs)
 

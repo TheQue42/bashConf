@@ -124,7 +124,7 @@ then
         RH="$GREEN"
     fi
     export PS1="$RH$BOLD\u$RST@\h:\W\n\\$> "
-	ps1Git
+    ps1Git
     logPrint "Finished processing ${GREEN}.bashrc$DEFAULT for user $USER (HOME=$HOME)"
     uptime
 fi

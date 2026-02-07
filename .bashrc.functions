@@ -351,13 +351,13 @@ declare -fx getBranchPoint
 
 function blinkIfHostNotHostBranch
 {
-	if [[ $PWD =~ bin ]]
-	then
-		if ! [ $(gitBranch) == $(hostname -s) ]
-		then
-			echo -e "${BLINK}" #${ESC1}${BLINK}${ESC2}"
-		fi
-	fi
+    if [[ $PWD =~ bin ]]
+    then
+        if ! [ $(gitBranch) == $(hostname -s) ]
+        then
+            echo -e "${BLINK}" #${ESC1}${BLINK}${ESC2}"
+        fi
+    fi
 }
 
 function ps1Git()
@@ -371,20 +371,20 @@ function ps1Git()
     ESC1='\['
     ESC2='\]'
     
-	if [ $(hostname -s) == "${GIT_BRANCH}" ]
-	then
-		BLNK=""
-	else
-		BLNK="${BLINK}"
-	fi
-	
-	# Not Yet Used
-	if [ "${GIT_BRANCH}" == master ]
-	then
-		B_COL="${RED}"
-	else
-		B_COL="${BLUE}"
-	fi
+    if [ $(hostname -s) == "${GIT_BRANCH}" ]
+    then
+        BLNK=""
+    else
+        BLNK="${BLINK}"
+    fi
+    
+    # Not Yet Used
+    if [ "${GIT_BRANCH}" == master ]
+    then
+        B_COL="${RED}"
+    else
+        B_COL="${BLUE}"
+    fi
     
     export GIT_PS1_SHOWDIRTYSTATE=true
     export GIT_PS1_SHOWUPSTREAM=auto
@@ -393,7 +393,7 @@ function ps1Git()
     export PROMPT_DIRTRIM=2
     USER_AND_REPO="${ESC1}${RH}${ESC2}\u${ESC1}${DEFAULT}${ESC2}@(${ESC1}\$(blinkIfHostNotHostBranch)${ESC2}\$(__git_ps1 '%s')${ESC1}$RST${ESC2}):"
     HOST_AND_PATH="${ESC1}${GREEN}${ESC2}\h${ESC1}${WHITE}${ESC2}@${ESC1}${PINK}${BOLD}${ESC2}\w${ESC1}$RST${ESC2}> "
-	export PS1="$USER_AND_REPO\n$HOST_AND_PATH"  #${ESC1}${DEFAULT}${ESC2}    
+    export PS1="$USER_AND_REPO\n$HOST_AND_PATH"  #${ESC1}${DEFAULT}${ESC2}    
     #. $HOME/.bashrc.env
 }
 
