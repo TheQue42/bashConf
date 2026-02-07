@@ -1,7 +1,7 @@
 #
 # .bashrc.alias
 #
-
+logPrint "Reading .bashrc.alias"
 #
 #std
 #
@@ -60,9 +60,9 @@ alias g-log="git log --graph --oneline --decorate --abbrev-commit"
 #
 if [[ $(which mg) =~ bin ]]
 then  
-    alias ee="emacs -nw"
-else
     alias ee="mg"
+else
+    alias ee="emacs -nw"
 fi
 
 alias ge="geany"
