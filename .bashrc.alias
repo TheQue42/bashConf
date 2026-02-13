@@ -58,9 +58,10 @@ alias g-log="git log --graph --oneline --decorate --abbrev-commit"
 #
 ##
 #
-if [[ $(which mg) =~ bin ]]
+if which -s mg
 then  
     alias ee="mg"
+    alias emacs="mg"
 else
     alias ee="emacs -nw"
 fi
