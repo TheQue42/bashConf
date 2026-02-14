@@ -6,6 +6,11 @@ logPrint "${GREEN}Reading ~/.bashrc.functions$DEFAULT"
 
 #isBsd and isSuse defined in .bashrc.init
 
+function dontRsync()
+{
+    echo "- **" >$1/.rsync-filter
+}
+
 function consoleReset()
 {
     export PS_OLD="$PS1"
