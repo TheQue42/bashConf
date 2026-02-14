@@ -55,10 +55,8 @@ alias g-log="git log --graph --oneline --decorate --abbrev-commit"
 #alias dps='docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
 
 
-#
-##
-#
-if which -s mg
+# Which interop Debian/Suse/Bsd
+if [[ $(whi\ch mg) =~ bin ]]
 then  
     alias ee="mg"
     alias emacs="mg"
