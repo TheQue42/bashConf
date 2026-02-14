@@ -31,6 +31,16 @@ function consoleReset()
 }
 
 
+function ecsParse() 
+{ 
+    for c in $ECS/*.container; 
+    do 
+        echo --- $c ---
+        grep "$*" $c | sort
+        echo ""
+    done
+}
+
 function gPush()
 {
     if [[ $1 =~ -all ]]
@@ -351,6 +361,9 @@ declare -fx getBranchPoint
 
 function blinkIfHostNotHostBranch
 {
+    local ESC1='\['
+    local ESC2='\]'
+
     if [[ $PWD =~ bin ]]
     then
         if ! [ $(gitBranch) == $(hostname -s) ]
@@ -368,8 +381,8 @@ function ps1Git()
     else
         RH="$BLUE"
     fi
-    ESC1='\['
-    ESC2='\]'
+    local ESC1='\['
+    local ESC2='\]'
     
     if [ $(hostname -s) == "${GIT_BRANCH}" ]
     then
