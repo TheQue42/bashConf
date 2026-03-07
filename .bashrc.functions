@@ -40,11 +40,11 @@ function ecsParse()
 { 
     for c in $ECS/*.container; 
     do 
-        echo --- $c ---
+        echo -e "\n--- $c ---" >&2
         grep "$*" $c | sort
-        echo ""
     done
 }
+export -f ecsParse
 
 function gPush()
 {
@@ -235,25 +235,6 @@ function dl()
 }
 
 export -f rl dl
-
-function eeh()
-{
-    if [ -z "$1" ]
-    then
-        emacs -nw $HA/configuration.yaml
-    return
-    else
-        cecho -bold "emacs -nw $HA/${1}*yaml"
-        sleep 0.4
-    fi
-
-    if [[ $1 =~ auto ]]
-    then
-        emacs -nw $HA/auto*yaml
-    else
-        emacs -nw $HA/$1*yaml
-    fi
-}
 
 
 function psG()

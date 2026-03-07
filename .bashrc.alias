@@ -54,6 +54,8 @@ alias g-log="git log --graph --oneline --decorate --abbrev-commit"
 #
 #alias dps='docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
 
+alias qlf="podman quadlet list | grep -vE '\sactive'"
+alias ql="podman quadlet list"
 
 # Which interop Debian/Suse/Bsd
 if [[ $(whi\ch mg) =~ bin ]]
