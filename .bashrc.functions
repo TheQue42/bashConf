@@ -46,6 +46,30 @@ function ecsParse()
 }
 export -f ecsParse
 
+
+function pySrv()
+{
+    CHECK=${1:-status}
+    if ! [[ "$CHECK" =~ start|stop|status|disable|enable ]]
+    then
+        cecho red "systemctl doesnt accept [$1]"
+        return
+    fi
+    for i in  $(grep -lr python /etc/systemd) 
+    do 
+        NAME=$(basename $i)
+        SRV_NAME=${NAME%%.service}
+        echo "---- $SRV_NAME ----" 
+        if [[ "${1}" =~ status ]] && [[ "${2}" =~ all ]]
+        then
+            systemctl $CHECK $SRV_NAME
+        else
+            systemctl $CHECK $SRV_NAME | grep -E "Active|Loaded"
+        fi
+        echo -e "=================\n"
+    done
+}
+
 function gPush()
 {
     if [[ $1 =~ -all ]]
