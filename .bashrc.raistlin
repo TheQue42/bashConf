@@ -33,6 +33,3 @@ alias mmD="make distclean"
 alias mmb="make -j$GCC_THREADS bt"
 alias mmB="nice make -j$GCC_THREADS bt_run"
 
-
-alias ee="emacs -nw"
-export EDITOR="emacs -nw"
