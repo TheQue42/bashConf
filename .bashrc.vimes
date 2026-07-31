@@ -20,7 +20,7 @@ export HAG="$HA/groups.yaml"
 
 export FRIGATE="$PODS/frigate"
 export MQTT="$PODS/mqtt"
-export ROOM_ASSISTANT=\$PODS/room-assistant/
+export BLE_HOSTS="tiffany igor gizmo nobby vimes"
 
 export SSH_AGENT_PID="DISABLE"
 
@@ -41,5 +41,6 @@ alias tfh="tail -F $HAL | grep --line-buffered -v '.{800,}' "
 alias ccc="cd /etc/containers/systemd"
 export ECS="/etc/containers/systemd"
 
+. /usr/share/bash-completion/completions/podman
 complete -o default -F __start_podman /usr/bin/docker
 complete -o default -F __start_podman docker
