@@ -15,7 +15,7 @@ alias md='mkdir -p'
 alias egrep="\grep -E"
 alias grep='\grep -E -i'
 alias ssc=systemctl
-alias blkList="lsblk -o name,fstype,size,fsused,label,partlabel,mountpoint,partuuid"
+alias blkList="lsblk -o name,fstype,size,fsused,label,partlabel,mountpoint,uuid,partuuid"
 #
 ### Misc
 #
